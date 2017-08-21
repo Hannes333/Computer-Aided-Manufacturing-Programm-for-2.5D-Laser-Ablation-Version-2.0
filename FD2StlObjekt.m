@@ -11,7 +11,7 @@ if DStlObjekt==1
     daspect([1 (360/(2*pi*RadiusMax)) 1]) %Achsenskalierung von X- und Y-Achse
     axis tight %DarstellungsFeld so nahe am 3d Objekt wie möglich
     versiontext=version;
-    if str2double(versiontext(1:3))>=7.9 %ab 2014b neue Grafikplots
+    if str2double(versiontext(1:3))>=9.1 %ab 2014b neue Grafikplots
         %set(gcf, 'color', [1 1 1]) %figure color (gcf->figure settings)
         %set(gca, 'color', [1 1 1]) %axis color (gca->axis settings)
         %set(gca, 'Clipping', 'off');
