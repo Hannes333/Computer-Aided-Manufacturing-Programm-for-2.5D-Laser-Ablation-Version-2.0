@@ -2,7 +2,7 @@ function []=FDSchraffur(DSchraffur,d,Schraffuren)
 %Funktion, die die Schraffuren darstellt
 
 if DSchraffur==1
-    hold on %Schreibe folgende Grafikbefehle in das geöffnete Grafikfenster
+    hold on %Schreibe folgende Grafikbefehle in das geÃ¶ffnete Grafikfenster
     k=d; %Von dieser Ebene werden die Konturen dargestellt
     
     yellowlines=zeros(2,size(Schraffuren{k},1),3);
@@ -42,11 +42,11 @@ if DSchraffur==1
     plot3(redlines(:,:,1),redlines(:,:,2),redlines(:,:,3),'r');
 
     %view([0 90]); %Set a nice view angle
-    axis tight %DarstellungsFeld so nahe am Objekt wie möglich
+    axis tight %DarstellungsFeld so nahe am Objekt wie mÃ¶glich
     axis('image'); %Skalierung der Achsen fix
     %set(gcf, 'visible', 'on')
     versiontext=version;
-    if str2double(versiontext(1:3))>=7.9 %ab 2014b neue Grafikplots
+    if str2double(versiontext(1:3))>=9.1 %ab 2014b neue Grafikplots
         %set(gcf, 'color', [1 1 1]) %figure color (gcf->figure settings)
         %set(gca, 'color', [1 1 1]) %axis color (gca->axis settings)
         %set(gca, 'Clipping', 'off');
