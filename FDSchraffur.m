@@ -36,7 +36,7 @@ if DSchraffur==1
     plot3(yellowlines(:,:,1),yellowlines(:,:,2),yellowlines(:,:,3),'y');
     bluelines(:,bluelinesindex:end,:)=[];
     plot3(bluelines(:,:,1),bluelines(:,:,2),bluelines(:,:,3),'b');
-    greenlines(:,bluelinesindex:end,:)=[];
+    greenlines(:,greenlinesindex:end,:)=[];
     plot3(greenlines(:,:,1),greenlines(:,:,2),greenlines(:,:,3),'g');
     redlines(:,redlinesindex:end,:)=[];
     plot3(redlines(:,:,1),redlines(:,:,2),redlines(:,:,3),'r');
