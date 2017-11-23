@@ -3,20 +3,20 @@ function [Nutgrund,Rand3,Rand1,KeinRand,HelixZylU,HelixKarU,betasU,...
     Rechtslaufend,NutrandKanten,n1]...
     =F07_Helix(v3,n3,n1,NK3,Umfangsabtrag,Bahnabstand)
 %Aus der Nutgeometrie wird durch Ausgleichsrechnung eine Helix berechnet.
-%Aus den Nutrandkanten zwischen Nutdeckelflächen (Normalenvektoren haben positive
-%Z-Komponente) und Nutgrundflächen (Normalenvektoren haben negative
-%Z-Komponente. Anhand der Helix kann das Werstück mit den 5 mechanischen 
+%Aus den Nutrandkanten zwischen NutdeckelflÃ¤chen (Normalenvektoren haben positive
+%Z-Komponente) und NutgrundflÃ¤chen (Normalenvektoren haben negative
+%Z-Komponente. Anhand der Helix kann das WerstÃ¼ck mit den 5 mechanischen 
 %Achsen zum Laser ausgerichtet werden.
 
 %Hilfsvektoren berechnen     
-Nutgrund=(n3(:,3)<0);
+Nutgrund=(n3(:,3)<0.5);
 Nutgrund=logical(reshape((Nutgrund*[1 1 1])',size(Nutgrund,1)*3,1));
 Axial=(n1(:,2)<0.005)&(n1(:,2)>-0.005)&(n1(:,3)<0.005)&(n1(:,3)>-0.005);
-n1(Axial&n1(:,1)>0,:)=ones(size(find(Axial&n1(:,1)>0),1),1)*[1 0 0]; %n1 glätten
-n1(Axial&n1(:,1)<0,:)=ones(size(find(Axial&n1(:,1)<0),1),1)*[-1 0 0]; %n1 glätten
+n1(Axial&n1(:,1)>0,:)=ones(size(find(Axial&n1(:,1)>0),1),1)*[1 0 0]; %n1 glÃ¤tten
+n1(Axial&n1(:,1)<0,:)=ones(size(find(Axial&n1(:,1)<0),1),1)*[-1 0 0]; %n1 glÃ¤tten
 Axial=logical(reshape((Axial*[1 1 1])',size(Axial,1)*3,1));
-Nutboden=Nutgrund|Axial; %Nutboden mit Axialflächen
-Nutgrund=Nutgrund&~Axial; %Nutgrund ohne Axialflächen
+Nutboden=Nutgrund|Axial; %Nutboden mit AxialflÃ¤chen
+Nutgrund=Nutgrund&~Axial; %Nutgrund ohne AxialflÃ¤chen
 KantenNutdeckels=zeros(size(v3,1),1);    
 KantenNutdeckels(NK3(~Nutboden,2))=1;
 Rand3=Nutboden&KantenNutdeckels;
@@ -24,8 +24,8 @@ KantenNutdecke=zeros(size(v3,1),1);
 KantenNutdecke(NK3(~Nutgrund,2))=1;
 KantenNutboden=zeros(size(v3,1),1);
 KantenNutboden(NK3(Nutgrund,2))=1;
-Rand1=Nutgrund&KantenNutdecke; %Eine Hälfte der Randkanten
-Rand2=~Nutgrund&KantenNutboden; %Andere Hälfte der Randkanten
+Rand1=Nutgrund&KantenNutdecke; %Eine HÃ¤lfte der Randkanten
+Rand2=~Nutgrund&KantenNutboden; %Andere HÃ¤lfte der Randkanten
 KeinRand=~Rand1&~Rand2; %Alles ausser Randkanten
 %Visualisierung von Hilfsvektoren beim Debugging (Zum Beispiel Nutgrund)
 %figure
@@ -85,7 +85,7 @@ if Umfangsabtrag==0
     ymin1=min(v3(:,2));
     ymax1=max(v3(:,2));
       
-    %disp('Helix berechnen über y-Koordinaten');
+    %disp('Helix berechnen Ã¼ber y-Koordinaten');
     polynomYX=polyfit(NutrandPunkte(:,2),NutrandPunkte(:,1),2);
     polynomYZ=polyfit(NutrandPunkte(:,2),NutrandPunkte(:,3),5);
     y=(ymin1+ymax1)/2;
@@ -123,7 +123,7 @@ if Umfangsabtrag==0
     %plot3(HelixZylY(:,1),HelixZylY(:,2),HelixZylY(:,3),'r'); %Abgerollte Helix darstellen
     HelixKarY=[HelixZylY(:,1),-sin(HelixZylY(:,2)*pi/180).*HelixZylY(:,3),cos(HelixZylY(:,2)*pi/180).*HelixZylY(:,3)]; %Helix von zylinder in kartesische Koordinaten umwandeln
     
-    %disp('Helix berechnen über x-Koordinaten');   
+    %disp('Helix berechnen Ã¼ber x-Koordinaten');   
     polynomXY=polyfit(NutrandPunkte(:,1),NutrandPunkte(:,2),2);  
     polynomXZ=polyfit(NutrandPunkte(:,1),NutrandPunkte(:,3),5);
     x=(xmin1+xmax1)/2;
