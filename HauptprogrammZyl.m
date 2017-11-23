@@ -113,9 +113,6 @@ view([45 45]); %Set a nice view angle
 [f2,v2] = F03_Transformation(f,v);
 disp('Transformation durchgeführt');
 
-%Abgerollte geometrie als slt-Datei speichern (für Debugging von F03)
-stlwrite('Abgerollt.stl',f2,v2);
-
 %Darstellung des Stl-Objekts nach der Koordinatentrasformation
 fv2.vertices=v2; %v enthält die Koordinaten der Eckpunkte
 fv2.faces=f2; %f sagt, welche drei Eckpunkte aus v ein Dreieck bilden
