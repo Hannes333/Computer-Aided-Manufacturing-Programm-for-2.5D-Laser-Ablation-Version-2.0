@@ -1,19 +1,19 @@
 clc %Bereinigt das Command Window
-clear all %Löscht alle Variabeln
+clear all %LÃ¶scht alle Variabeln
 close all %Vernichtet offene Grafikfenster
 format long g %Mehr Nachkommastellen angezeigen
 
-AusgleichX=1;       %Ausgleichsrechnung der Helix über X-Koordinaten (1) oder über Y-Koordinaten (0)
+AusgleichX=0;       %Ausgleichsrechnung der Helix Ã¼ber X-Koordinaten (1) oder Ã¼ber Y-Koordinaten (0)
 Bahnabstand=0.1;      %Abstand zwischen den BahnPunkte auf der Helix [mm] 
 OffsetStart=0;        %Erste KonturoffsetDistanz [mm]
 OffsetLength=0.01;     %KonturoffsetDistanz [mm]
 OffsetEnd=0.1;          %Maximale KonturoffsetDistanz [mm]
-HatchVerlaengerung=0;   %Verlängerung der Hatches über den Rand [mm]
-MinimalLaenge=0.001; %Minimale Hatchsegmentlänge [mm]
+HatchVerlaengerung=0;   %VerlÃ¤ngerung der Hatches Ã¼ber den Rand [mm]
+MinimalLaenge=0.001; %Minimale HatchsegmentlÃ¤nge [mm]
 Zusammenfassen=1000;    %Ab diesem Hatch werden die Hatches zusammengefasst
 Scangeschw=100;     %Einstellen der Scangeschwindigkeit [mm/s]
 Jumpgeschw=100;    %Einstellen der Jumpgeschwindigkeit [mm/s]
-VorschubCmax=180;  %Maximale Drehzahl der Drehachse C [°/s]
+VorschubCmax=180;  %Maximale Drehzahl der Drehachse C [Â°/s]
 Zickzack=1;        %Bei Zickzackmodus wird die Scanrichtung bei jedem zweiten Hatch umgedreht
 NCCodeKomplett=1;  %NC-Code komplett ausschreiben (1), NC-Code mit MOVEABS Befehlen(0)
 LaserOnOffalle=0;  %LaserOnOff bei jeder Hatchlinie (1), LaseronOff nur bei Hatchreihe und Ende (0)
@@ -55,7 +55,7 @@ NCText.u=' U';
 NCText.v=' V';
 
 NCText.Vorschub1='F';
-NCText.Vorschub2=' //Dominante Geschw [°/s]';
+NCText.Vorschub2=' //Dominante Geschw [Â°/s]';
 NCText.LaserSta='G01';
 NCText.LaserEnd='';
 
@@ -86,9 +86,9 @@ figure %Darstellung des STL-Objekts in neuem Grafikfenster
 hold on
 FD3StlObjekt(v1,0);
 
-%Funktion die die Stl-Datei überprüft und repariert
+%Funktion die die Stl-Datei Ã¼berprÃ¼ft und repariert
 [v1,Defekt,Defekte]=F02_Reparieren(v1);
-disp('Stl-Datei überprüft'); 
+disp('Stl-Datei Ã¼berprÃ¼ft'); 
 if Defekt==1
     for i=1:size(Defekte,1)
         if Defekte(i,7)==1
@@ -101,20 +101,20 @@ if Defekt==1
             scatter3(Defekte(i,4),Defekte(i,5),Defekte(i,6),20,'r','filled'); %KantenEckpunkt2 darstellen
         end
     end
-    errordlg('Stl-Datei hat Defekte. Mehr als zwei Dreiecksflächen stossen in gemeinsamer Kante aufeinander (blau). Keine gegenüberliegende Kante gefunden (rot)');
-    error('Stl-Datei hat Defekte. Mehr als zwei Dreiecksflächen stossen in gemeinsamer Kante aufeinander (blau). Keine gegenüberliegende Kante gefunden (rot)');
+    errordlg('Stl-Datei hat Defekte. Mehr als zwei DreiecksflÃ¤chen stossen in gemeinsamer Kante aufeinander (blau). Keine gegenÃ¼berliegende Kante gefunden (rot)');
+    error('Stl-Datei hat Defekte. Mehr als zwei DreiecksflÃ¤chen stossen in gemeinsamer Kante aufeinander (blau). Keine gegenÃ¼berliegende Kante gefunden (rot)');
 end
 
 %Funktion die die Geometrie Abrollt
 [v3,n3,NK3,Umfangsabtrag]=F04_Abrollen(v1,n1,f1);
 disp('Abgerollte Geometrie berechnet');
 
-%Darstellen der abgerollten zusammenhängenden Geometrie
+%Darstellen der abgerollten zusammenhÃ¤ngenden Geometrie
 figure
 hold on
 FD3StlObjekt(v3,1);
 
-%Abgerollte geometrie als slt-Datei speichern (für Debugging von F04)
+%Abgerollte geometrie als slt-Datei speichern (fÃ¼r Debugging von F04)
 %fv.vertices=v3;
 %nn=size(v3,1);
 %fv.faces=[[1:3:nn]',[2:3:nn]',[3:3:nn]'];
@@ -151,11 +151,11 @@ else %Umfangsabtrag==0
     end
 end
 
-%Funktion die die Schattenwürfe und die Konturoffsets berechnet
+%Funktion die die SchattenwÃ¼rfe und die Konturoffsets berechnet
 [Konturs,Deckels,Hatches,BahnPunkte]=F15_Schattenwuerfe(HelixKar,HelixZyl,...
     betas,v1,n1,v3,NK3,Nutgrund,Rand1,KeinRand,Umfangsabtrag,Rechtslaufend,...
     OffsetStart,OffsetLength,OffsetEnd,HatchVerlaengerung,MinimalLaenge);
-disp('Schattenwürfe und Konturoffset berechnet');
+disp('SchattenwÃ¼rfe und Konturoffset berechnet');
 
 %Funktionen die den NC-Code berechnen und erstellen
 [Hatches2,BahnPunkte2,Vorschub]=F53_NCCodeBerechnung(Hatches,BahnPunkte,...
