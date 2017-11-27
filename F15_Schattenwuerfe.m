@@ -2,19 +2,19 @@ function [Konturs,Deckels,Hatches,BahnPunkte]=F15_Schattenwuerfe(HelixKar,HelixZ
     betas,v1,n1,v3,NK3,Nutgrund,Rand1,KeinRand,Umfangsabtrag,Rechtslaufend,...
     OffsetStart,OffsetLength,OffsetEnd,HatchVerlaengerung,MinimalLaenge)
 %Diese Funktion berechnet aus der Nutgeometrie die anhand der Helix
-%ausgerichtet wird die Schattenwürfe und die Konturoffsets. Zudem werden
-%die Hatchenden verlängert und sehr kurz Konturkanten unterhalb der
-%MinimalLänge entfernt.
+%ausgerichtet wird die SchattenwÃ¼rfe und die Konturoffsets. Zudem werden
+%die Hatchenden verlÃ¤ngert und sehr kurz Konturkanten unterhalb der
+%MinimalLÃ¤nge entfernt.
 
-%Schattenwürfe berechnen 
-bar = waitbar(0,'Schattenwürfe und Konturoffsets berechnen...'); %Ladebalken erstellen
+%SchattenwÃ¼rfe berechnen 
+bar = waitbar(0,'SchattenwÃ¼rfe und Konturoffsets berechnen...'); %Ladebalken erstellen
 Konturs=cell(size(HelixKar,1),1); %Cellarray zur Speicherung der Schattenkonturen
 Deckels=cell(size(HelixKar,1),1); %Cellarray zur Speicherung der Schattenkonturdeckel
 Hatches=cell(size(HelixKar,1),1); %Cellarray zur Speicherung der Konturoffsets
-BahnPunkte=[zeros(size(HelixKar)),betas,HelixZyl(:,2)]; %Bahnpunkte für die 5 mechanischen Achsen
+BahnPunkte=[zeros(size(HelixKar)),betas,HelixZyl(:,2)]; %Bahnpunkte fÃ¼r die 5 mechanischen Achsen
 iterationen=size(HelixKar,1);
 for i=1:iterationen
-    %i=225; %Für Debugginganalyse einzelner Hatchebenen
+    %i=225; %FÃ¼r Debugginganalyse einzelner Hatchebenen
     %disp(['# Schattenwurfberechnung Nummer: ',int2str(i)]);
     %BlickRichtung aus beta und gamma erstellen
     %betas(i)=betas(i)-7; %Winkel beta manipulieren
@@ -40,7 +40,7 @@ for i=1:iterationen
             WBereich=(v3(:,2)>WinkelC-90&v3(:,2)<WinkelC+90);
         end
     end
-    %Darstellen der zugewandten Flächen
+    %Darstellen der zugewandten FlÃ¤chen
     %figure
     %hold on
     %vv=v1(Zugewandt==1,:);
@@ -89,7 +89,7 @@ for i=1:iterationen
 
     if ~isempty(KantenD)&&~isempty(KantenB)&&i~=iterationen  %Schattenwurf exisitert %Kein Schattenwurf bei letztem durchgang (Aber Bahnpunkt) berechnen
     
-        %Überganskanten Nutgrund und Nutdeckel finden (Rand)
+        %Ãœberganskanten Nutgrund und Nutdeckel finden (Rand)
         Rand=find(Rand1&WBereich);
         RandA=zeros(size(Rand,1),3);
         iRandA=1;
@@ -124,7 +124,7 @@ for i=1:iterationen
         %hold on
         %vv2=[vv(:,1),vv(:,2).*cos(winkel1)-vv(:,3).*sin(winkel1),vv(:,2).*sin(winkel1)+vv(:,3).*cos(winkel1)];
         %BR2=[BR(:,1),BR(:,2).*cos(winkel1)-BR(:,3).*sin(winkel1),BR(:,2).*sin(winkel1)+BR(:,3).*cos(winkel1)];
-        %FD3StlObjekt(vv2,0); %Um x-Achse gedrehte zugewandte Flächen darstellen
+        %FD3StlObjekt(vv2,0); %Um x-Achse gedrehte zugewandte FlÃ¤chen darstellen
         %plot3(HelixKar2(:,1),HelixKar2(:,2),HelixKar2(:,3),'r'); %Um x-Achse gedrehte Helix darstellen
         %scatter3(HelixKar2(i,1),HelixKar2(i,2),HelixKar2(i,3),50,'r'); %Aktueller HelixPunkt darstellen
         %quiver3(HelixKar2(i,1),HelixKar2(i,2),HelixKar2(i,3),BR2(1),BR2(2),BR2(3),1, 'color','k');
@@ -141,7 +141,7 @@ for i=1:iterationen
         %hold on
         %vv3=[vv2(:,1).*cos(winkel2)+vv2(:,3).*sin(winkel2),vv2(:,2),vv2(:,1).*-sin(winkel2)+vv2(:,3).*cos(winkel2)];
         %BR3=[BR2(:,1).*cos(winkel2)+BR2(:,3).*sin(winkel2),BR2(:,2),BR2(:,1).*-sin(winkel2)+BR2(:,3).*cos(winkel2)];
-        %FD3StlObjekt(vv3,0); %Um y-Achse gedrehte zugewandte Flächen darstellen
+        %FD3StlObjekt(vv3,0); %Um y-Achse gedrehte zugewandte FlÃ¤chen darstellen
         %plot3(HelixKar3(:,1),HelixKar3(:,2),HelixKar3(:,3),'r'); %Um y-Achse gedrehte Helix darstellen
         %scatter3(HelixKar3(i,1),HelixKar3(i,2),HelixKar3(i,3),50,'r'); %Aktueller HelixPunkt darstellen
         %quiver3(HelixKar3(i,1),HelixKar3(i,2),HelixKar3(i,3),BR3(1),BR3(2),BR3(3),1, 'color','k');
@@ -149,7 +149,7 @@ for i=1:iterationen
         %Minimale YRadius Kante definieren
         if Rechtslaufend==1
             MinRY=-min(v3(:,3))+0.02;
-        else %Linksgängig
+        else %LinksgÃ¤ngig
             MinRY=min(v3(:,3))-0.02;
         end
         KanteMinY=[min(RandA3(:,1))-0.1,MinRY,0;max(RandA3(:,1))+0.1,MinRY,0];
@@ -160,7 +160,7 @@ for i=1:iterationen
         
         %Liste=round(Liste*10000000)/10000000;
         
-        %Kanten die über MinRY liegen aus Liste entfernen
+        %Kanten die Ã¼ber MinRY liegen aus Liste entfernen
         Delete=zeros(size(Liste,1),1);
         if Rechtslaufend==1
             for j=1:2:size(Liste,1)
@@ -255,7 +255,7 @@ for i=1:iterationen
             %plot3([Liste3(27,1),Liste3(28,1)],[Liste3(27,2),Liste3(28,2)],[Liste3(27,3),Liste3(28,3)],'b','LineWidth',3);
             %plot3([Liste3(29,1),Liste3(30,1)],[Liste3(29,2),Liste3(30,2)],[Liste3(29,3),Liste3(30,3)],'g','LineWidth',3);
             %scatter(Auswahl1(1,4),Auswahl1(1,5),50,'r')
-            %Überschneidende und Angrenzende Kanten suchen und in Auswahl1 speichern
+            %Ãœberschneidende und Angrenzende Kanten suchen und in Auswahl1 speichern
             WinkelA=atand(VektorA(2)/VektorA(1))+(VektorA(1)>=0)*180+90; %WinkelA berechnen
             Auswahl1=zeros(size(Liste3,1),6);
             AuswahlIndex=1;
@@ -326,11 +326,11 @@ for i=1:iterationen
                     end
                 end
             end
-            Auswahl1(AuswahlIndex:end,:)=[]; %Leere Resteinträge löschen
+            Auswahl1(AuswahlIndex:end,:)=[]; %Leere ResteintrÃ¤ge lÃ¶schen
             Auswahl1=sortrows(Auswahl1,3); %Auswahl nach k sortieren
-            %Auswahl1 auswerten und korrekte Anschlusskante auswählen
+            %Auswahl1 auswerten und korrekte Anschlusskante auswÃ¤hlen
             if isempty(Auswahl1)
-                %disp('Keine Überschneidungen oder Anschlusskante'); 
+                %disp('Keine Ãœberschneidungen oder Anschlusskante'); 
                 ZwiPunktA=StaPunktA;
                 StaPunktA=EndPunktA;
                 EndPunktA=ZwiPunktA;
@@ -354,7 +354,7 @@ for i=1:iterationen
                         WinkelB1=atand(VektorB1(2)/VektorB1(1))+(VektorB1(1)>=0)*180+90;
                         WinkelB1=mod(540+WinkelA-WinkelB1,360);
                         Auswahl2(j,6)=WinkelB1;
-                        Auswahl2(j,1:2)=[Auswahl2(j,2),Auswahl2(j,1)]; %Indexeinträge vertauschen
+                        Auswahl2(j,1:2)=[Auswahl2(j,2),Auswahl2(j,1)]; %IndexeintrÃ¤ge vertauschen
                     else
                         VektorB1=EndPunktB1-Intersect;
                         WinkelB1=atand(VektorB1(2)/VektorB1(1))+(VektorB1(1)>=0)*180+90;
@@ -365,14 +365,14 @@ for i=1:iterationen
                         if WinkelB1>WinkelB2
                             %disp('Neuer Vektor ist VektorB1');
                             Auswahl2(j,6)=WinkelB1;
-                            Auswahl2(j,1:2)=[Auswahl2(j,2),Auswahl2(j,1)]; %Indexeinträge vertauschen
+                            Auswahl2(j,1:2)=[Auswahl2(j,2),Auswahl2(j,1)]; %IndexeintrÃ¤ge vertauschen
                         else
                             %disp('Neuer Vektor ist VektorB2');
                             Auswahl2(j,6)=WinkelB2;
                         end
                     end
                 end
-                [~,IndMaxW]=max(Auswahl2(:,6)); %Vektor mit grösstem Winkel auswählen 
+                [~,IndMaxW]=max(Auswahl2(:,6)); %Vektor mit grÃ¶sstem Winkel auswÃ¤hlen 
                 Intersect=Auswahl2(IndMaxW,4:5);
                 StaPunktA=Intersect;
                 EndPunktA=Liste3(Auswahl2(IndMaxW,2),1:2);
@@ -395,7 +395,7 @@ for i=1:iterationen
                     elseif round(Intersect(1)*1000000)/1000000==round(EndPunktB(1)*1000000)/1000000&&...
                             round(Intersect(2)*1000000)/1000000==round(EndPunktB(2)*1000000)/1000000
                         %disp('Anschlusskante falsch ausgerichtet');
-                        Auswahl3(j,1:2)=[Auswahl3(j,2),Auswahl3(j,1)]; %Indexeinträge vertauschen
+                        Auswahl3(j,1:2)=[Auswahl3(j,2),Auswahl3(j,1)]; %IndexeintrÃ¤ge vertauschen
                         VektorB=StaPunktB-EndPunktB;
                         WinkelB=atand(VektorB(2)/VektorB(1))+(VektorB(1)>=0)*180+90;
                         WinkelB=mod(540+WinkelA-WinkelB,360);
@@ -414,11 +414,11 @@ for i=1:iterationen
                         else
                             %disp('Neuer Vektor ist VektorB2');
                             Auswahl3(j,6)=WinkelB2;
-                            Auswahl3(j,1:2)=[Auswahl3(j,2),Auswahl3(j,1)]; %Indexeinträge vertauschen
+                            Auswahl3(j,1:2)=[Auswahl3(j,2),Auswahl3(j,1)]; %IndexeintrÃ¤ge vertauschen
                         end
                     end
                 end
-                [~,IndMaxW]=max(Auswahl3(:,6)); %Vektor mit grösstem Winkel auswählen 
+                [~,IndMaxW]=max(Auswahl3(:,6)); %Vektor mit grÃ¶sstem Winkel auswÃ¤hlen 
                 Intersect=Auswahl3(IndMaxW,4:5);
                 StaPunktA=Intersect;
                 EndPunktA=Liste3(Auswahl3(IndMaxW,2),1:2);
@@ -426,7 +426,7 @@ for i=1:iterationen
                 IndexA=min(Auswahl3(IndMaxW,1:2));
             end
         end  
-        Innenkontur(InnenkonturIndex:end,:)=[]; %Resteinträge löschen       
+        Innenkontur(InnenkonturIndex:end,:)=[]; %ResteintrÃ¤ge lÃ¶schen       
 
         if ~isempty(Innenkontur)
             %Separation Nutgrundkontur und Nutdeckelkontur
@@ -487,7 +487,7 @@ for i=1:iterationen
             else
                 OffsetEnd2=OffsetEnd; 
             end
-            KonturAbstand=OffsetStart:OffsetLength:OffsetEnd2; %Konturabstände definieren
+            KonturAbstand=OffsetStart:OffsetLength:OffsetEnd2; %KonturabstÃ¤nde definieren
             if ~isempty(KonturAbstand)
                 Hatch1=F20_KonturOffset(Kontur,KonturAbstand);
                 %Darstellen der Konturoffsets
@@ -497,14 +497,14 @@ for i=1:iterationen
                 %    end
                 %end
                 
-                %Hatchenden verlängern oder verkürzen 
+                %Hatchenden verlÃ¤ngern oder verkÃ¼rzen 
                 Hatch2=Hatch1;
                 Hatch3=Hatch1;
                 Deckel4=Deckel3;
                 for j=size(Hatch2,2):-1:1
                     if ~isempty(Hatch2{1,j})
                         %plot(Hatch1{1,j}(:,1),Hatch1{1,j}(:,2),'r'); %Hatch1 darstellen
-                        %HatchEnden verlängern damit sie sicher mit Deckel überlagern
+                        %HatchEnden verlÃ¤ngern damit sie sicher mit Deckel Ã¼berlagern
                         ErweiterungHatch=1;
                         StaVektor=Hatch2{1,j}(1,1:2)-Hatch2{1,j}(2,1:2);
                         StaVektor=StaVektor/(StaVektor(1)^2+StaVektor(2)^2)^0.5; 
@@ -513,7 +513,7 @@ for i=1:iterationen
                         EndVektor=EndVektor/(EndVektor(1)^2+EndVektor(2)^2)^0.5;
                         Hatch2{1,j}(end,1:2)=Hatch2{1,j}(end,1:2)+EndVektor*ErweiterungHatch;
                         %plot(Hatch2{1,j}(:,1),Hatch2{1,j}(:,2),'m'); %Hatch2 darstellen
-                        %DeckelEnden verlängern
+                        %DeckelEnden verlÃ¤ngern
                         ErweiterungDeckel=0.005;
                         StaVektor=Deckel3(1,1:2)-Deckel3(2,1:2);
                         StaVektor=StaVektor/(StaVektor(1)^2+StaVektor(2)^2)^0.5; 
@@ -522,28 +522,28 @@ for i=1:iterationen
                         EndVektor=EndVektor/(EndVektor(1)^2+EndVektor(2)^2)^0.5;
                         Deckel4(end,1:2)=Deckel3(end,1:2)+EndVektor*ErweiterungDeckel;
                         %plot(Deckel4(:,1),Deckel4(:,2),'g'); %Deckel4 darstellen
-                        %HatchEnde bei Deckel abschneiden und um HatchVerlaengerung verlängern
-                        [PosX,PosY,Pos]=F16_Intersections(Hatch2{1,j}(:,1),Hatch2{1,j}(:,2),Deckel4(:,1),Deckel4(:,2),0);
+                        %HatchEnde bei Deckel abschneiden und um HatchVerlaengerung verlÃ¤ngern
+                        [PosX,PosY,Pos]=polyxpoly(Hatch2{1,j}(:,1),Hatch2{1,j}(:,2),Deckel4(:,1),Deckel4(:,2));
                         %scatter(PosX,PosY,30,'k'); %Schnittpunkte darstellen
                         Schnittpunkte=size(Pos,1);
                         if Schnittpunkte==0
-                            %disp('Keine Überschneidung'); 
+                            %disp('Keine Ãœberschneidung'); 
                             Hatch3(:,j)=[];
                         elseif Schnittpunkte==1
-                            %warndlg(['Nur eine Überschneidung in Hatch: ',num2str(i)]);
-                            warning(['Nur eine Überschneidung in Hatch: ',num2str(i)]);
+                            %warndlg(['Nur eine Ãœberschneidung in Hatch: ',num2str(i)]);
+                            warning(['Nur eine Ãœberschneidung in Hatch: ',num2str(i)]);
                             Hatch3(:,j)=[];
                             %{
-                            if PosY>Hatch2{1,j}(Pos(1,1),2) %Überschneidung beim HatchStart
+                            if PosY>Hatch2{1,j}(Pos(1,1),2) %Ãœberschneidung beim HatchStart
                                 if Pos(1,1)>1
-                                    Hatch3{1,j}(1:Pos(1,1)-1,:)=[]; %Unnötige Startpunkte entfernen
+                                    Hatch3{1,j}(1:Pos(1,1)-1,:)=[]; %UnnÃ¶tige Startpunkte entfernen
                                 end
                                 StaVektor=Hatch3{1,j}(1,1:2)-Hatch3{1,j}(2,1:2);
                                 StaVektor=StaVektor/(StaVektor(1)^2+StaVektor(2)^2)^0.5;
                                 Hatch3{1,j}(1,1:2)=[PosX(1),PosY(1)]+StaVektor*HatchVerlaengerung;
-                            else %Überschneidung beim HatchEnde
+                            else %Ãœberschneidung beim HatchEnde
                                 if Pos(end,1)<size(Hatch3{1,j},1)-1
-                                    Hatch3{1,j}(Pos(end,1)+2:end,:)=[]; %Unnötige Endpunkte entfernen
+                                    Hatch3{1,j}(Pos(end,1)+2:end,:)=[]; %UnnÃ¶tige Endpunkte entfernen
                                 end
                                 EndVektor=Hatch3{1,j}(end,1:2)-Hatch3{1,j}(end-1,1:2);
                                 EndVektor=EndVektor/(EndVektor(1)^2+EndVektor(2)^2)^0.5;
@@ -552,12 +552,12 @@ for i=1:iterationen
                             %}
                             %plot(Hatch3{1,j}(:,1),Hatch3{1,j}(:,2),'b'); %Hatch3 darstellen    
                         elseif Schnittpunkte>=2
-                            %disp('Zwei oder mehr Überschneidungen');
+                            %disp('Zwei oder mehr Ãœberschneidungen');
                             if Pos(end,1)<size(Hatch3{1,j},1)-1
-                                Hatch3{1,j}(round(Pos(end,1))+2:end,:)=[]; %Unnötige Endpunkte entfernen
+                                Hatch3{1,j}(round(Pos(end,1))+2:end,:)=[]; %UnnÃ¶tige Endpunkte entfernen
                             end
                             if Pos(1,1)>1
-                                Hatch3{1,j}(1:round(Pos(1,1))-1,:)=[]; %Unnötige Startpunkte entfernen
+                                Hatch3{1,j}(1:round(Pos(1,1))-1,:)=[]; %UnnÃ¶tige Startpunkte entfernen
                             end
                             StaVektor=Hatch3{1,j}(1,1:2)-Hatch3{1,j}(2,1:2);
                             StaVektor=StaVektor/(StaVektor(1)^2+StaVektor(2)^2)^0.5;
@@ -570,7 +570,7 @@ for i=1:iterationen
                     end
                 end
 
-                %kurze Hatchlängen von Punkten die nahe aufeinanderfolgen entfernen
+                %kurze HatchlÃ¤ngen von Punkten die nahe aufeinanderfolgen entfernen
                 Hatch4=Hatch3;
                 for j=1:size(Hatch4,2)
                     if ~isempty(Hatch4{1,j})
@@ -578,7 +578,7 @@ for i=1:iterationen
                         E0=Hatch4{1,j}(1,1:2);
                         for m=2:size(Hatch4{1,j},1)-1
                             E1=Hatch4{1,j}(m,1:2);
-                            Dist=((E1(1)-E0(1))^2+(E1(2)-E0(2))^2)^0.5; %Segmentlänge berechnen
+                            Dist=((E1(1)-E0(1))^2+(E1(2)-E0(2))^2)^0.5; %SegmentlÃ¤nge berechnen
                             if Dist<MinimalLaenge %Distanz zu kurz
                                 %disp(['Kurzes Hatchsegment entfernt ',int2str(i),' ',int2str(j),' ',int2str(m)]);
                                 Delete(m)=1;
