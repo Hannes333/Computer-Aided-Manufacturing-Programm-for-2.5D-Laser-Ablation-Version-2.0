@@ -8,7 +8,7 @@ function FDHatches(HelixZyl,HelixKar,betas,v1,Nutgrund,Konturs,Deckels,Hatches,R
         winkel1=270-WinkelC;
     end
     winkel1=winkel1*pi/180; %Umrechnung Grad in Bogenmass
-    vv=v1(Nutgrund==1,:); %Flächeneckpunkte des Nutgrunds
+    vv=v1(Nutgrund==1,:); %FlÃ¤cheneckpunkte des Nutgrunds
     vv2=[vv(:,1),vv(:,2).*cos(winkel1)-vv(:,3).*sin(winkel1),vv(:,2).*sin(winkel1)+vv(:,3).*cos(winkel1)]; %Gedreht um x-Achse
     HelixKar2=[HelixKar(:,1),HelixKar(:,2).*cos(winkel1)-HelixKar(:,3).*sin(winkel1),HelixKar(:,2).*sin(winkel1)+HelixKar(:,3).*cos(winkel1)]; %Gedreht um x-Achse
     WinkelB=betas(i);
@@ -27,7 +27,7 @@ function FDHatches(HelixZyl,HelixKar,betas,v1,Nutgrund,Konturs,Deckels,Hatches,R
         end
     end
     versiontext=version;
-    if str2double(versiontext(1:3))>=7.9 %ab 2014b neue Grafikplots
+    if str2double(versiontext(1:3))>=9.1 %ab 2014b neue Grafikplots
         %set(gcf, 'color', [1 1 1]) %figure color (gcf->figure settings)
         %set(gca, 'color', [1 1 1]) %axis color (gca->axis settings)
         %set(gca, 'Clipping', 'off');
