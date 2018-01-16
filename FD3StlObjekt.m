@@ -9,15 +9,15 @@ function [] = FD3StlObjekt( v,skalierung )
     %f(:,2)=2:3:n;
     %f(:,3)=3:3:n;
     f=[[1:3:n]',[2:3:n]',[3:3:n]'];
-    fv.vertices=v; %v enthält die Koordinaten der Eckpunkte
+    fv.vertices=v; %v enthÃ¤lt die Koordinaten der Eckpunkte
     fv.faces=f;  %f sagt, welche drei Eckpunkte aus v ein Dreieck bilden
     %figure %Darstellung des STL-Objekts in neuem Grafikfenster
-    %hold on %Schreibe folgende Grafikbefehle in das geöffnete Grafikfenster
+    %hold on %Schreibe folgende Grafikbefehle in das geÃ¶ffnete Grafikfenster
     alpha(patch(fv,'FaceColor',farben,'EdgeColor','none','FaceLighting','gouraud','AmbientStrength',1),0.5);
     %patch(fv,'FaceColor',farben,'EdgeColor','none','FaceLighting','gouraud','AmbientStrength',1);
-    material('dull'); %Obeflächen matt
-    camlight(0,0); %Lichtquelle hinzufügen
-    axis tight %DarstellungsFeld so nahe am 3d Objekt wie möglich
+    material('dull'); %ObeflÃ¤chen matt
+    camlight(0,0); %Lichtquelle hinzufÃ¼gen
+    axis tight %DarstellungsFeld so nahe am 3d Objekt wie mÃ¶glich
     if skalierung==0
         %axis equal
         daspect([1 1 1]) %Achsenskalierung von X- und Y-Achse
@@ -26,7 +26,7 @@ function [] = FD3StlObjekt( v,skalierung )
         daspect([1 (360/(2*pi)) 1]) %Achsenskalierung von X- und Y-Achse
     end
     versiontext=version;
-    if str2double(versiontext(1:3))>=7.9 %ab 2014b neue Grafikplots
+    if str2double(versiontext(1:3))>=9.1 %ab 2014b neue Grafikplots
         %set(gcf, 'color', [1 1 1]) %figure color (gcf->figure settings)
         %set(gca, 'color', [1 1 1]) %axis color (gca->axis settings)
         %set(gca, 'Clipping', 'off');
