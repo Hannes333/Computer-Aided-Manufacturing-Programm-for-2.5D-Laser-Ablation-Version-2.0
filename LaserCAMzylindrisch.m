@@ -1,6 +1,6 @@
 function varargout = LaserCAMzylindrisch(varargin)
 % Dies ist das Skript zum Fenster LaserCAMzylindrisch.fig
-% In diesem Code werden alle Eingaben die auf dem LaserCAMzylindrisch.fig getätigt
+% In diesem Code werden alle Eingaben die auf dem LaserCAMzylindrisch.fig getÃ¤tigt
 % werden ausgewertet.
 % Aus diesem Skript kann ein weiteres Skript aufgerufen namens NCCodezylindrisch.m
 % Das entsprechende Fenster zu NCCodezylindrisch.m lautet NCCodezylindrisch.fig
@@ -36,30 +36,30 @@ function LaserCAMzylindrisch_OpeningFcn(hObject, eventdata, handles, varargin)
 clc %Bereinigt das Command Window
 set(handles.edit22,'String','LaserCAMzylindrisch Version 2.0'); 
 
-% Globales Struct zur Übergabe der Variabeln wird erstellt
+% Globales Struct zur Ãœbergabe der Variabeln wird erstellt
 global Var
 
 %Ausgangsvariabeln werden definiert
-Schichtdicke=0.1; %Höhenabstand der Schichten in [mm]
+Schichtdicke=0.1; %HÃ¶henabstand der Schichten in [mm]
 Linienabstand=0.1; %Abstand zwischen den Laserbahnen[mm]
 SchraffurSkywritestart=0.1; %Skywrite zur Beschleunigung der Spiegel und Galvamotoren [mm]
 SchraffurSkywriteend=0.1; %Skywrite zur Abbremsung der Spiegel und Galvamotoren [mm]
 Schraffurwinkelstart=5; %Richtungswinkel der ersten Schraffur [Grad]
 Schraffurwinkelinkrem=0; %Richtungswinkel der darauf folgenden Schraffuren [Grad]
 Scangeschw=500; %Einstellen der Scangeschwindigkeit [mm/s]
-VorschubAmax=2700; %Maximale Drehzahl der Drehachse A [°/s]
-DrehoffsetStart=20; %Startdrehwinkel zur ersten Schraffuren [°]
-Drehoffset=10; %Drehwinkel zwischen den Schraffuren [°]
-MinJumplengthY=0.001; %Minimale Länge der Jumplinie in Y-Richtung [mm]
-Modus=1; %Startwinkel (1=kleinsmöglicher Winkel) (2=freiwählbarer Winkel) (3=grösstmöglicher Winkel)
-Verhaeltnis=0.6; %Verhältnis zwischen Markierlinie zu Jumplinie bei Startwinkelberechnung nach Modus 1
-WinkelAnpassung=0; %Winkel anpassen damit maximale Drehzahl und Scangeschwindigkeit nicht überschritten und kleinstmöchlier Winkel nicht unterschritten wird (1=ja) (0=nein)
-MinimalLaenge=0; %Minimale Hatchsegmentlänge [mm]
+VorschubAmax=2700; %Maximale Drehzahl der Drehachse A [Â°/s]
+DrehoffsetStart=20; %Startdrehwinkel zur ersten Schraffuren [Â°]
+Drehoffset=10; %Drehwinkel zwischen den Schraffuren [Â°]
+MinJumplengthY=0.001; %Minimale LÃ¤nge der Jumplinie in Y-Richtung [mm]
+Modus=1; %Startwinkel (1=kleinsmÃ¶glicher Winkel) (2=freiwÃ¤hlbarer Winkel) (3=grÃ¶sstmÃ¶glicher Winkel)
+Verhaeltnis=0.6; %VerhÃ¤ltnis zwischen Markierlinie zu Jumplinie bei Startwinkelberechnung nach Modus 1
+WinkelAnpassung=0; %Winkel anpassen damit maximale Drehzahl und Scangeschwindigkeit nicht Ã¼berschritten und kleinstmÃ¶chlier Winkel nicht unterschritten wird (1=ja) (0=nein)
+MinimalLaenge=0; %Minimale HatchsegmentlÃ¤nge [mm]
 OnDelayLength=0;    %Verschiebung der Startpunkte [mm] (l_on = v_s*t_on)
 OffDelayLength=0;   %Verschiebung der Startpunkte [mm] (l_off = v_s*t_off)
 AxialRichtung=1;    %(Von links nach rechts=1 ,von rechts nach links=2, alternieren=3)
 
-%Ausgangsvariabeln werden auf den Feldern eingefügt
+%Ausgangsvariabeln werden auf den Feldern eingefÃ¼gt
 set(handles.edit5,'String',num2str(Schichtdicke));
 set(handles.edit13,'String',num2str(Linienabstand));
 set(handles.edit15,'String',num2str(SchraffurSkywritestart));
@@ -76,15 +76,15 @@ set(handles.edit30,'String',num2str(MinimalLaenge));
 set(handles.edit31,'String',num2str(OnDelayLength));
 set(handles.edit32,'String',num2str(OffDelayLength));
 set(handles.checkbox21,'Value',WinkelAnpassung);
-if Modus==1 %kleinstmöglicher Winkel
+if Modus==1 %kleinstmÃ¶glicher Winkel
     set(handles.checkbox22,'Value',1);
     set(handles.checkbox16,'Value',0);
     set(handles.checkbox17,'Value',0);
-elseif Modus==2 %freiwählbarer Winkel
+elseif Modus==2 %freiwÃ¤hlbarer Winkel
     set(handles.checkbox22,'Value',0);
     set(handles.checkbox16,'Value',1);
     set(handles.checkbox17,'Value',0);
-elseif Modus==3 %Grösstmöglicher Winkel
+elseif Modus==3 %GrÃ¶sstmÃ¶glicher Winkel
     set(handles.checkbox22,'Value',0);
     set(handles.checkbox16,'Value',0);
     set(handles.checkbox17,'Value',1);
@@ -137,7 +137,7 @@ NCText.Fokus2=' A';
 NCText.Fokus3=' Z';
 NCText.Fokus4='';
 NCText.Vorschub1='F';
-NCText.Vorschub2=' //Dominante Geschw [°/s]';
+NCText.Vorschub2=' //Dominante Geschw [Â°/s]';
 NCText.Eilgang1='G00 X';
 NCText.Eilgang2=' A';
 NCText.Eilgang3='';
@@ -173,7 +173,7 @@ Var.NCText=NCText;
 %Pfad, wo der NC-Code gespeichert werden soll
 Var.FolderName='';
 
-%Alle Felder bis auf den STL-Datei importieren Button müssen inaktiv sein
+%Alle Felder bis auf den STL-Datei importieren Button mÃ¼ssen inaktiv sein
 set(handles.checkbox1,'Enable','off');
 set(handles.edit3,'Enable','off');
 set(handles.edit4,'Enable','off');
@@ -234,7 +234,7 @@ function varargout = LaserCAMzylindrisch_OutputFcn(hObject, eventdata, handles)
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
-%Wird ausgeführt nach Benutzung von Button1 (Stl-Datei importieren)
+%Wird ausgefÃ¼hrt nach Benutzung von Button1 (Stl-Datei importieren)
 function pushbutton1_Callback(hObject, eventdata, handles)
 global Var
 
@@ -248,35 +248,35 @@ if ischar(FileName) && ischar(PathName)
     [f,v,n] = F00_stlread(Pfad);
     disp('Stl-Objekt eingelesen');
 
-    cla %Grafik zurücksetzen
+    cla %Grafik zurÃ¼cksetzen
     
     %Darstellung des original Stl-Objekts
     RadiusMax=max((v(:,2).^2+v(:,3).^2).^0.5);
     v1=v; 
     v1(:,2)=v1(:,2)*-(360/(2*pi*RadiusMax)); %Anpassung der orignal Stldatei an die Skalierung in Grad der Y-Richtung
-    fv1.vertices=v1; %v enthält die Koordinaten der Eckpunkte
+    fv1.vertices=v1; %v enthÃ¤lt die Koordinaten der Eckpunkte
     fv1.faces=f; %f sagt, welche drei Eckpunkte aus v ein Dreieck bilden
     FD2StlObjekt(1,fv1,[0.2 0.2 0.8],RadiusMax);
     view([45 45]); %Set a nice view angle
-    camlight(0,0); %Lichtquelle hinzufügen
+    camlight(0,0); %Lichtquelle hinzufÃ¼gen
     
     %Funktion, die die Stl-Datei von Kartesisch- in Zylinderkoordinaten umwandelt
     [f2,v2] = F03_Transformation(f,v);
-    disp('Transformation durchgeführt');
+    disp('Transformation durchgefÃ¼hrt');
 
     %Darstellung des Stl-Objekts nach der Koordinatentrasformation
-    fv2.vertices=v2; %v enthält die Koordinaten der Eckpunkte
+    fv2.vertices=v2; %v enthÃ¤lt die Koordinaten der Eckpunkte
     fv2.faces=f2; %f sagt, welche drei Eckpunkte aus v ein Dreieck bilden
     FD2StlObjekt(1,fv2,[0.2 0.8 0.8],RadiusMax);
     
-    %Übergabe der Variablen
+    %Ãœbergabe der Variablen
     Var.v2=v2;
     Var.fv1=fv1;
     Var.fv2=fv2;
     Var.RadiusMax=RadiusMax;
     
-    %Ausgabe Höchster Punkt Stl-Datei und Tiefster Punkt Stl-Datei
-    Stloben=max(v2(:,3)); %Z-Koordinate des höchstgelegensten Stl-Objekt Punktes [mm]
+    %Ausgabe HÃ¶chster Punkt Stl-Datei und Tiefster Punkt Stl-Datei
+    Stloben=max(v2(:,3)); %Z-Koordinate des hÃ¶chstgelegensten Stl-Objekt Punktes [mm]
     Stlunten=min(v2(:,3)); %Z-Koordinate des tiefstgelegensten Stl-Objekt Punktes [mm]
     set(handles.edit1,'String',Stloben);
     set(handles.edit2,'String',Stlunten);
@@ -299,7 +299,7 @@ if ischar(FileName) && ischar(PathName)
     set(handles.edit3,'String',Zoben);
     set(handles.edit4,'String',Zunten);
 
-    %DarstellungsHäcken werden aktualisiert
+    %DarstellungsHÃ¤cken werden aktualisiert
     set(handles.checkbox9,'Value',1);
     set(handles.checkbox10,'Value',1);
     set(handles.checkbox11,'Value',0);
@@ -309,7 +309,7 @@ if ischar(FileName) && ischar(PathName)
     set(handles.checkbox11,'Enable','off');
     set(handles.checkbox12,'Enable','off');
     
-    %Entsprechende Felder auf dem GUI müssen auswählbar sein
+    %Entsprechende Felder auf dem GUI mÃ¼ssen auswÃ¤hlbar sein
     set(handles.checkbox1,'Enable','on');
     set(handles.checkbox1,'Value',0);
     set(handles.edit3,'Enable','off');
@@ -330,21 +330,21 @@ if ischar(FileName) && ischar(PathName)
     set(handles.checkbox16,'Enable','on');
     set(handles.checkbox17,'Enable','on');
        
-    %Schalflächen für den Schraffurwinkel werden richtig aktiviert
+    %SchalflÃ¤chen fÃ¼r den Schraffurwinkel werden richtig aktiviert
     Modus=Var.Modus;
-    if Modus==1 %kleinstmöglicher Winkel
+    if Modus==1 %kleinstmÃ¶glicher Winkel
         set(handles.edit29,'Enable','on');
         set(handles.edit17,'Enable','off');
         set(handles.edit18,'Enable','off');
         set(handles.edit26,'Enable','off');
         set(handles.checkbox21,'Enable','off');
-    elseif Modus==2 %freiwählbarer Winkel
+    elseif Modus==2 %freiwÃ¤hlbarer Winkel
         set(handles.edit29,'Enable','off');
         set(handles.edit17,'Enable','on');
         set(handles.edit18,'Enable','on');
         set(handles.edit26,'Enable','on');
         set(handles.checkbox21,'Enable','on');
-    elseif Modus==3 %Grösstmöglicher Winkel
+    elseif Modus==3 %GrÃ¶sstmÃ¶glicher Winkel
         set(handles.edit29,'Enable','off');
         set(handles.edit17,'Enable','off');
         set(handles.edit18,'Enable','off');
@@ -352,7 +352,7 @@ if ischar(FileName) && ischar(PathName)
         set(handles.checkbox21,'Enable','off');
     end
     
-    %Schaltflächen für Minimallänge, Delays und Axialrichtung aktivieren
+    %SchaltflÃ¤chen fÃ¼r MinimallÃ¤nge, Delays und Axialrichtung aktivieren
     set(handles.edit30,'Enable','on');
     set(handles.edit31,'Enable','on');
     set(handles.edit32,'Enable','on');
@@ -360,13 +360,13 @@ if ischar(FileName) && ischar(PathName)
     set(handles.checkbox26,'Enable','on');
     set(handles.checkbox27,'Enable','on');
     
-    %Schalflächen mit Ansichtwerzeugen werden aktiviert
+    %SchalflÃ¤chen mit Ansichtwerzeugen werden aktiviert
     set(handles.pushbutton5,'Enable','on');
     set(handles.pushbutton6,'Enable','on');
     set(handles.pushbutton7,'Enable','on');
 end
 
-%Wird ausgeführt nach Benutzung von edit1
+%Wird ausgefÃ¼hrt nach Benutzung von edit1
 function edit1_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -375,7 +375,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit2
+%Wird ausgefÃ¼hrt nach Benutzung von edit2
 function edit2_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -384,11 +384,11 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von checkbox1.
+%Wird ausgefÃ¼hrt nach Benutzung von checkbox1.
 function checkbox1_Callback(hObject, eventdata, handles)
 global Var
 
-%Aktualisierung einiger Felder bezüglich des Slicing
+%Aktualisierung einiger Felder bezÃ¼glich des Slicing
 Auswahlhoehen=get(hObject,'Value');
 if Auswahlhoehen==1
     set(handles.edit3,'Enable','on');
@@ -415,13 +415,13 @@ set(handles.edit6,'String',length(Schnitthoehen));
 set(handles.edit3,'String',Zoben);
 set(handles.edit4,'String',Zunten);
 
-%Wird ausgeführt nach Benutzung von edit3
+%Wird ausgefÃ¼hrt nach Benutzung von edit3
 function edit3_Callback(hObject, eventdata, handles)
 global Var
 %Eingabe in edit3 wird ausgewertet
 Auswahlhoeheoben=str2double(get(handles.edit3,'String'));
 if isnan(Auswahlhoeheoben)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
 else
     %Funktion, die die Schnitthoehen berechnet wird aufgerufen
     Schichtdicke=str2double(get(handles.edit5,'String'));
@@ -447,13 +447,13 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit4
+%Wird ausgefÃ¼hrt nach Benutzung von edit4
 function edit4_Callback(hObject, eventdata, handles)
 global Var
 %Eingabe in edit4 wird ausgewertet
 Auswahlhoeheunten=str2double(get(handles.edit4,'String'));
 if isnan(Auswahlhoeheunten)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
 else
     %Funktion, die die Schnitthoehen berechnet wird aufgerufen
     Schichtdicke=str2double(get(handles.edit5,'String'));
@@ -479,16 +479,16 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit5
+%Wird ausgefÃ¼hrt nach Benutzung von edit5
 function edit5_Callback(hObject, eventdata, handles)
 global Var
 %Funktion, die die Schnitthoehen berechnet wird aufgerufen
 Schichtdicke=str2double(get(handles.edit5,'String'));
 if Schichtdicke==0
-    warndlg('Schichtdicke muss grösser Null sein')
+    warndlg('Schichtdicke muss grÃ¶sser Null sein')
     set(handles.edit5,'String',num2str(Var.Schichtdicke));
 elseif isnan(Schichtdicke)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
     set(handles.edit5,'String',num2str(Var.Schichtdicke));
 else
     if Schichtdicke<0
@@ -517,7 +517,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit 6
+%Wird ausgefÃ¼hrt nach Benutzung von edit 6
 function edit6_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -526,7 +526,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit13
+%Wird ausgefÃ¼hrt nach Benutzung von edit13
 function edit13_Callback(hObject, eventdata, handles)
 global Var
 %Eingabe in edit13 wird ausgewertet
@@ -534,10 +534,10 @@ Linienabstand=str2double(get(handles.edit13,'String'));
 if Linienabstand<0
     set(handles.edit13,'String',num2str(abs(Linienabstand)));
 elseif Linienabstand==0
-    warndlg('Der Linienabstand muss grösser Null sein')
+    warndlg('Der Linienabstand muss grÃ¶sser Null sein')
     set(handles.edit13,'String',num2str(Var.Linienabstand));
 elseif isnan(Linienabstand)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
     set(handles.edit13,'String',num2str(Var.Linienabstand));
 else
     Var.Linienabstand=Linienabstand;
@@ -549,7 +549,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit15 (Skywrite Startlänge [mm])
+%Wird ausgefÃ¼hrt nach Benutzung von edit15 (Skywrite StartlÃ¤nge [mm])
 function edit15_Callback(hObject, eventdata, handles)
 global Var
 %Eingabe in edit15 wird ausgewertet
@@ -557,7 +557,7 @@ SchraffurSkywritestart=str2double(get(handles.edit15,'String'));
 if SchraffurSkywritestart<0
     set(handles.edit15,'String',num2str(abs(SchraffurSkywritestart)));
 elseif isnan(SchraffurSkywritestart)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
     set(handles.edit15,'String',num2str(Var.SchraffurSkywritestart));
 else
     Var.SchraffurSkywritestart=SchraffurSkywritestart;
@@ -569,7 +569,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit16 (Skywrite Endlänge [mm])
+%Wird ausgefÃ¼hrt nach Benutzung von edit16 (Skywrite EndlÃ¤nge [mm])
 function edit16_Callback(hObject, eventdata, handles)
 global Var
 %Eingabe in edit16 wird ausgewertet
@@ -577,7 +577,7 @@ SchraffurSkywriteend=str2double(get(handles.edit16,'String'));
 if SchraffurSkywriteend<0
     set(handles.edit16,'String',num2str(abs(SchraffurSkywriteend)));
 elseif isnan(SchraffurSkywriteend)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
     set(handles.edit16,'String',num2str(Var.SchraffurSkywriteend));
 else
     Var.SchraffurSkywriteend=SchraffurSkywriteend;
@@ -589,12 +589,12 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit17 (Freiwählbarer Winkel [°])
+%Wird ausgefÃ¼hrt nach Benutzung von edit17 (FreiwÃ¤hlbarer Winkel [Â°])
 function edit17_Callback(hObject, eventdata, handles)
 global Var
 Schraffurwinkelstart=str2double(get(handles.edit17,'String'));
 if isnan(Schraffurwinkelstart)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
     set(handles.edit17,'String',num2str(Var.Schraffurwinkelstart));
 elseif Schraffurwinkelstart<-89.999
     set(handles.edit17,'String',num2str(-89.999));
@@ -612,12 +612,12 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit18 (Winkelinrement pro Ebene [°])
+%Wird ausgefÃ¼hrt nach Benutzung von edit18 (Winkelinrement pro Ebene [Â°])
 function edit18_Callback(hObject, eventdata, handles)
 global Var
 Schraffurwinkelinkrem=str2double(get(handles.edit18,'String'));
 if isnan(Schraffurwinkelinkrem)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
     set(handles.edit18,'String',num2str(Var.Schraffurwinkelinkrem));
 elseif Schraffurwinkelinkrem<0
     set(handles.edit18,'String',num2str(abs(Schraffurwinkelinkrem)));
@@ -632,10 +632,10 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von pushbutton2. (Laserbahnen berechnen)
+%Wird ausgefÃ¼hrt nach Benutzung von pushbutton2. (Laserbahnen berechnen)
 function pushbutton2_Callback(hObject, eventdata, handles)
 global Var
-%Zusammensuchen der benötigten Werte
+%Zusammensuchen der benÃ¶tigten Werte
 Schichtdicke=str2double(get(handles.edit5,'String'));
 Schnitthoehen=Var.Schnitthoehen;
 v2=Var.v2;
@@ -678,10 +678,10 @@ end
 d=1; 
 
 %Darstellung des Stl-objekts
-cla %Grafik zurücksetzen
+cla %Grafik zurÃ¼cksetzen
 FD2StlObjekt(1,Var.fv2,[0.2 0.8 0.8],RadiusMax);
-camlight(0,0); %Lichtquelle hinzufügen
-%Entsprechende Schaltflächen zur Darstellung werden sichtbar gemacht
+camlight(0,0); %Lichtquelle hinzufÃ¼gen
+%Entsprechende SchaltflÃ¤chen zur Darstellung werden sichtbar gemacht
 set(handles.checkbox9,'Value',0); %Checkbox Darstellung Schnittkontur
 set(handles.checkbox10,'Value',1); %Checkbox Darstellung Schnittkontur
 
@@ -697,7 +697,7 @@ Var.Konturen=Konturen;
 %Darstellung der Schnittkonturen 
 FD2Schnittkontur(1,d,Konturen,RadiusMax);
 
-%Entsprechende Schaltflächen zur Darstellung werden sichtbar gemacht
+%Entsprechende SchaltflÃ¤chen zur Darstellung werden sichtbar gemacht
 set(handles.checkbox11,'Enable','on'); %Checkbox Darstellung Schnittkontur
 set(handles.checkbox11,'Value',1); %Checkbox Darstellung Schnittkontur
 
@@ -710,7 +710,7 @@ disp('Schraffuren werden berechnet...');
     MinimalLaenge,OnDelayLength,OffDelayLength,Axialrichtung); 
 disp('Schraffuren berechnet');
 
-%Abschätzung der Bearbeitungszeit
+%AbschÃ¤tzung der Bearbeitungszeit
 WinkelStart=0;
 Bearbeitungszeit=0;
 for k=1:size(Schraffuren,1) %Index, der durch die Ebenen von Konturen geht
@@ -720,8 +720,8 @@ for k=1:size(Schraffuren,1) %Index, der durch die Ebenen von Konturen geht
         WinkelStart=WinkelEnd;
     end
 end
-%Bearbeitungszeit auf Benutzeroberfläche anzeigen
-set(handles.edit33,'String',['Geschätze Bearbeitungszeit: ',num2str(round(Bearbeitungszeit/60)),'min ',num2str(mod(Bearbeitungszeit,60),'%4.1f'),'s']); 
+%Bearbeitungszeit auf BenutzeroberflÃ¤che anzeigen
+set(handles.edit33,'String',['GeschÃ¤tze Bearbeitungszeit: ',num2str(round(Bearbeitungszeit/60)),'min ',num2str(mod(Bearbeitungszeit,60),'%4.1f'),'s']); 
 
 %Speicherung einiger Variablen
 Var.Schraffuren=Schraffuren;
@@ -731,13 +731,13 @@ Var.Winkel=Winkel;
 %Darstellung der Schraffuren
 FD2Schraffur(1,d,Schraffuren,RadiusMax);
 
-%Entsprechende Schaltflächen zur Darstellung werden sichtbar gemacht
+%Entsprechende SchaltflÃ¤chen zur Darstellung werden sichtbar gemacht
 set(handles.checkbox12,'Enable','on'); %Checkbox Darstellung Schnittkontur
 set(handles.checkbox12,'Value',1); %Checkbox Darstellung Schnittkontur
 
 %Aktualisierung edit 22
 Hoehe=flipud(Var.Schnitthoehen);
-set(handles.edit22,'String',['Ebene: ',num2str(d),'   Radius: ',num2str(Hoehe(d)),'mm   Schraffurwinkel: ',num2str(Var.Winkel(d)),'°']); 
+set(handles.edit22,'String',['Ebene: ',num2str(d),'   Radius: ',num2str(Hoehe(d)),'mm   Schraffurwinkel: ',num2str(Var.Winkel(d)),'Â°']); 
 
 %Aktivierung Slider
 set(handles.slider1,'Min',-length(Schnitthoehen)-0.1);
@@ -748,7 +748,7 @@ set(handles.slider1,'Enable','on');
 set(handles.pushbutton8,'Enable','on');
 
 
-%Wird ausgeführt nach Benutzung von checkbox9 (Original Stl-Objekt)
+%Wird ausgefÃ¼hrt nach Benutzung von checkbox9 (Original Stl-Objekt)
 function checkbox9_Callback(hObject, eventdata, handles)
 global Var
 DStlObjekt1=get(handles.checkbox9,'Value');
@@ -756,18 +756,18 @@ DStlObjekt2=get(handles.checkbox10,'Value');
 DKontur=get(handles.checkbox11,'Value');
 DSchraffur=get(handles.checkbox12,'Value');
 d=abs(get(handles.slider1,'Value'));
-cla %Grafik zurücksetzen
+cla %Grafik zurÃ¼cksetzen
 FD2StlObjekt(DStlObjekt1,Var.fv1,[0.2 0.2 0.8],Var.RadiusMax);
 FD2StlObjekt(DStlObjekt2,Var.fv2,[0.2 0.8 0.8],Var.RadiusMax);
-camlight(0,0); %Lichtquelle hinzufügen
+camlight(0,0); %Lichtquelle hinzufÃ¼gen
 if DKontur==1
     FD2Schnittkontur(DKontur,d,Var.Konturen,Var.RadiusMax);
 end
 if DSchraffur==1
-    FD2Schraffur(DSchraffur,d,Var.Schraffuren,Var,RadiusMax);
+    FD2Schraffur(DSchraffur,d,Var.Schraffuren,Var.RadiusMax);
 end
 
-%Wird ausgeführt nach Benutzung von checkbox10 (Transformiertes Stl-Objekt)
+%Wird ausgefÃ¼hrt nach Benutzung von checkbox10 (Transformiertes Stl-Objekt)
 function checkbox10_Callback(hObject, eventdata, handles)
 global Var
 DStlObjekt1=get(handles.checkbox9,'Value');
@@ -775,10 +775,10 @@ DStlObjekt2=get(handles.checkbox10,'Value');
 DKontur=get(handles.checkbox11,'Value');
 DSchraffur=get(handles.checkbox12,'Value');
 d=abs(get(handles.slider1,'Value'));
-cla %Grafik zurücksetzen
+cla %Grafik zurÃ¼cksetzen
 FD2StlObjekt(DStlObjekt1,Var.fv1,[0.2 0.2 0.8],Var.RadiusMax);
 FD2StlObjekt(DStlObjekt2,Var.fv2,[0.2 0.8 0.8],Var.RadiusMax);
-camlight(0,0); %Lichtquelle hinzufügen
+camlight(0,0); %Lichtquelle hinzufÃ¼gen
 if DKontur==1
     FD2Schnittkontur(DKontur,d,Var.Konturen,Var.RadiusMax);
 end
@@ -786,7 +786,7 @@ if DSchraffur==1
     FD2Schraffur(DSchraffur,d,Var.Schraffuren,Var.RadiusMax);
 end
 
-%Wird ausgeführt nach Benutzung von checkbox11 (Schnittkontur)
+%Wird ausgefÃ¼hrt nach Benutzung von checkbox11 (Schnittkontur)
 function checkbox11_Callback(hObject, eventdata, handles)
 global Var
 DStlObjekt1=get(handles.checkbox9,'Value');
@@ -794,10 +794,10 @@ DStlObjekt2=get(handles.checkbox10,'Value');
 DKontur=get(handles.checkbox11,'Value');
 DSchraffur=get(handles.checkbox12,'Value');
 d=abs(get(handles.slider1,'Value'));
-cla %Grafik zurücksetzen
+cla %Grafik zurÃ¼cksetzen
 FD2StlObjekt(DStlObjekt1,Var.fv1,[0.2 0.2 0.8],Var.RadiusMax);
 FD2StlObjekt(DStlObjekt2,Var.fv2,[0.2 0.8 0.8],Var.RadiusMax);
-camlight(0,0); %Lichtquelle hinzufügen
+camlight(0,0); %Lichtquelle hinzufÃ¼gen
 if DKontur==1
     FD2Schnittkontur(DKontur,d,Var.Konturen,Var.RadiusMax);
 end
@@ -805,7 +805,7 @@ if DSchraffur==1
     FD2Schraffur(DSchraffur,d,Var.Schraffuren,Var.RadiusMax);
 end
 
-%Wird ausgeführt nach Benutzung von checkbox12 (Laserbahnen Schraffur)
+%Wird ausgefÃ¼hrt nach Benutzung von checkbox12 (Laserbahnen Schraffur)
 function checkbox12_Callback(hObject, eventdata, handles)
 global Var
 DStlObjekt1=get(handles.checkbox9,'Value');
@@ -813,10 +813,10 @@ DStlObjekt2=get(handles.checkbox10,'Value');
 DKontur=get(handles.checkbox11,'Value');
 DSchraffur=get(handles.checkbox12,'Value');
 d=abs(get(handles.slider1,'Value'));
-cla %Grafik zurücksetzen
+cla %Grafik zurÃ¼cksetzen
 FD2StlObjekt(DStlObjekt1,Var.fv1,[0.2 0.2 0.8],Var.RadiusMax);
 FD2StlObjekt(DStlObjekt2,Var.fv2,[0.2 0.8 0.8],Var.RadiusMax);
-camlight(0,0); %Lichtquelle hinzufügen
+camlight(0,0); %Lichtquelle hinzufÃ¼gen
 if DKontur==1
     FD2Schnittkontur(DKontur,d,Var.Konturen,Var.RadiusMax);
 end
@@ -824,7 +824,7 @@ if DSchraffur==1
     FD2Schraffur(DSchraffur,d,Var.Schraffuren,Var.RadiusMax);
 end
 
-%Wird ausgeführt nach Benutzung von slider1
+%Wird ausgefÃ¼hrt nach Benutzung von slider1
 function slider1_Callback(hObject, eventdata, handles)
 global Var
 d=get(handles.slider1,'Value');
@@ -833,7 +833,7 @@ set(handles.slider1,'Value',d);
 d=abs(d);
 %Aktualisierung edit 22
 Hoehe=flipud(Var.Schnitthoehen);
-set(handles.edit22,'String',['Ebene: ',num2str(d),'   Radius: ',num2str(Hoehe(d)),'mm   Schraffurwinkel: ',num2str(Var.Winkel(d)),'°']); 
+set(handles.edit22,'String',['Ebene: ',num2str(d),'   Radius: ',num2str(Hoehe(d)),'mm   Schraffurwinkel: ',num2str(Var.Winkel(d)),'Â°']); 
 DStlObjekt1=get(handles.checkbox9,'Value');
 DStlObjekt2=get(handles.checkbox10,'Value');
 DKontur=get(handles.checkbox11,'Value');
@@ -842,7 +842,7 @@ d=abs(get(handles.slider1,'Value'));
 cla
 FD2StlObjekt(DStlObjekt1,Var.fv1,[0.2 0.2 0.8],Var.RadiusMax);
 FD2StlObjekt(DStlObjekt2,Var.fv2,[0.2 0.8 0.8],Var.RadiusMax);
-camlight(0,0); %Lichtquelle hinzufügen
+camlight(0,0); %Lichtquelle hinzufÃ¼gen
 if DKontur==1
     FD2Schnittkontur(DKontur,d,Var.Konturen,Var.RadiusMax);
 end
@@ -856,23 +856,23 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
 
-%Wird ausgeführt nach Benutzung von pushbutton5 (3D Ansicht Werkzeug)
+%Wird ausgefÃ¼hrt nach Benutzung von pushbutton5 (3D Ansicht Werkzeug)
 function pushbutton5_Callback(hObject, eventdata, handles)
 rotate3d on
 
-%Wird ausgeführt nach Benutzung von pushbutton6 (Zoom Werkzeug)
+%Wird ausgefÃ¼hrt nach Benutzung von pushbutton6 (Zoom Werkzeug)
 function pushbutton6_Callback(hObject, eventdata, handles)
 zoom on
 
-%Wird ausgeführt nach Benutzung von pushbutton7 (Verschiebe Werkzeug)
+%Wird ausgefÃ¼hrt nach Benutzung von pushbutton7 (Verschiebe Werkzeug)
 function pushbutton7_Callback(hObject, eventdata, handles)
 pan on
 
-%Wird ausgeführt nach Benutzung von pushbutton8 (NC-Code berechnen)
+%Wird ausgefÃ¼hrt nach Benutzung von pushbutton8 (NC-Code berechnen)
 function pushbutton8_Callback(hObject, eventdata, handles)
 NCCodezylindrisch
 
-%Wird ausgeführt nach Benutzung von edit22
+%Wird ausgefÃ¼hrt nach Benutzung von edit22
 function edit22_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -881,14 +881,14 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von pushbutton10 (Parameter laden)
+%Wird ausgefÃ¼hrt nach Benutzung von pushbutton10 (Parameter laden)
 function pushbutton10_Callback(hObject, eventdata, handles)
 global Var
 
-%Dialogfenster um Ladeverzeichnis zu wählen
+%Dialogfenster um Ladeverzeichnis zu wÃ¤hlen
 [FileName,PathName] = uigetfile('*.txt','Einstellungen laden');
 if ischar(FileName) && ischar(PathName)
-    fid = fopen([PathName,FileName], 'r'); %txt-file wird geöffnet
+    fid = fopen([PathName,FileName], 'r'); %txt-file wird geÃ¶ffnet
     %Textdatei einlesen, Zeilen mit '%' ignorieren und ':' als Separator verwenden
     text=textscan(fid,'%s%s', 'CommentStyle','%','Delimiter',':');
     fclose(fid);
@@ -971,7 +971,7 @@ if ischar(FileName) && ischar(PathName)
     Var.Zoben=Zoben;
     Var.Zunten=Zunten; 
     
-    %Aktualisierung einiger Felder bezüglich des Slicing
+    %Aktualisierung einiger Felder bezÃ¼glich des Slicing
     if Auswahlhoehen==1
         set(handles.checkbox1,'Value',1);
         set(handles.edit3,'Enable','on');
@@ -1024,26 +1024,26 @@ if ischar(FileName) && ischar(PathName)
     Var.OnDelayLength=OnDelayLength;
     Var.OffDelayLength=OffDelayLength;
         
-    %Schaltflächen zur Schraffur werden richtig aktiviert
+    %SchaltflÃ¤chen zur Schraffur werden richtig aktiviert
     set(handles.edit15,'Enable','on');
     set(handles.edit16,'Enable','on');
 
-    %Schaltflächen zum Schraffurwinkel werden richtig aktiviert    
-    if KleinWinkel==1 %kleinstmöglicher Winkel
+    %SchaltflÃ¤chen zum Schraffurwinkel werden richtig aktiviert    
+    if KleinWinkel==1 %kleinstmÃ¶glicher Winkel
         set(handles.edit29,'Enable','on');
         set(handles.edit17,'Enable','off');
         set(handles.edit18,'Enable','off');
         set(handles.edit26,'Enable','off');
         set(handles.checkbox21,'Enable','off');
     end
-    if FreiWinkel==1 %freiwählbarer Winkel
+    if FreiWinkel==1 %freiwÃ¤hlbarer Winkel
         set(handles.edit29,'Enable','off');
         set(handles.edit17,'Enable','on');
         set(handles.edit18,'Enable','on');
         set(handles.edit26,'Enable','on');
         set(handles.checkbox21,'Enable','on');
     end
-    if GrossWinkel==1 %Grösstmöglicher Winkel
+    if GrossWinkel==1 %GrÃ¶sstmÃ¶glicher Winkel
         set(handles.edit29,'Enable','off');
         set(handles.edit17,'Enable','off');
         set(handles.edit18,'Enable','off');
@@ -1051,7 +1051,7 @@ if ischar(FileName) && ischar(PathName)
         set(handles.checkbox21,'Enable','off');
     end
     
-    %Schaltflächen für Minimallänge, Delays und Axialrichtung aktivieren
+    %SchaltflÃ¤chen fÃ¼r MinimallÃ¤nge, Delays und Axialrichtung aktivieren
     if linksrechts==1 %Von links nach rechts
         set(handles.checkbox24,'Value',1);
         set(handles.checkbox26,'Value',0);
@@ -1070,14 +1070,14 @@ if ischar(FileName) && ischar(PathName)
     
 end
 
-%Wird ausgeführt nach Benutzen von pushbutton11 (Aktuelle Parameter speichern)
+%Wird ausgefÃ¼hrt nach Benutzen von pushbutton11 (Aktuelle Parameter speichern)
 function pushbutton11_Callback(hObject, eventdata, handles)
 global Var
 
 %Dialogfenster um Speicherverzeichnis zu bestimmen
 [FileName,PathName] = uiputfile('*.txt','Alle Einstellungen Speichern');
 if ischar(FileName) && ischar(PathName)
-    fid = fopen([PathName,FileName], 'w'); %Ein neues txt-file wird geöffnet
+    fid = fopen([PathName,FileName], 'w'); %Ein neues txt-file wird geÃ¶ffnet
 
     %Parameter werden ins Textfile gespeichert
     fprintf(fid,['Schichtdicke:',get(handles.edit5,'String'),'\r\n']);
@@ -1154,15 +1154,15 @@ if ischar(FileName) && ischar(PathName)
     fclose(fid); %txt-file wird geschlossen
 end
 
-%Wird ausgeführt nach Benutzung von edit23 (Scangeschwindigkeit [mm/s])
+%Wird ausgefÃ¼hrt nach Benutzung von edit23 (Scangeschwindigkeit [mm/s])
 function edit23_Callback(hObject, eventdata, handles)
 global Var
 Scangeschw=str2double(get(handles.edit23,'String'));
 if Scangeschw==0
-    warndlg('Scangeschwindigkeit muss grösser Null sein')
+    warndlg('Scangeschwindigkeit muss grÃ¶sser Null sein')
     set(handles.edit23,'String',num2str(Var.Scangeschw));
 elseif isnan(Scangeschw)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
     set(handles.edit23,'String',num2str(Var.Scangeschw));
 elseif Scangeschw<0
     set(handles.edit23,'String',num2str(abs(Scangeschw)));
@@ -1177,15 +1177,15 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit24 (Maximale Drehzahl [°/s])
+%Wird ausgefÃ¼hrt nach Benutzung von edit24 (Maximale Drehzahl [Â°/s])
 function edit24_Callback(hObject, eventdata, handles)
 global Var
 VorschubAmax=str2double(get(handles.edit24,'String'));
 if VorschubAmax==0
-    warndlg('Maximale Drehzahl muss grösser Null sein')
+    warndlg('Maximale Drehzahl muss grÃ¶sser Null sein')
     set(handles.edit24,'String',num2str(Var.VorschubAmax));
 elseif isnan(VorschubAmax)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
     set(handles.edit24,'String',num2str(Var.VorschubAmax));
 elseif VorschubAmax<0
     set(handles.edit24,'String',num2str(abs(VorschubAmax)));
@@ -1200,12 +1200,12 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit25 (Drehoffset der Ebene [mm])
+%Wird ausgefÃ¼hrt nach Benutzung von edit25 (Drehoffset der Ebene [mm])
 function edit25_Callback(hObject, eventdata, handles)
 global Var
 Drehoffset=str2double(get(handles.edit25,'String'));
 if isnan(Drehoffset)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
     set(handles.edit25,'String',num2str(Var.Drehoffset));
 elseif Drehoffset<0
     set(handles.edit25,'String',num2str(abs(Drehoffset)));
@@ -1220,12 +1220,12 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit35 (Offsetwinkel zur ersten Fläche)
+%Wird ausgefÃ¼hrt nach Benutzung von edit35 (Offsetwinkel zur ersten FlÃ¤che)
 function edit35_Callback(hObject, eventdata, handles)
 global Var
 DrehoffsetStart=str2double(get(handles.edit35,'String'));
 if isnan(DrehoffsetStart)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
     set(handles.edit35,'String',num2str(Var.DrehoffsetStart));
 elseif DrehoffsetStart<0
     set(handles.edit35,'String',num2str(abs(DrehoffsetStart)));
@@ -1240,12 +1240,12 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit26 (Minimale Jumplinienlänge)
+%Wird ausgefÃ¼hrt nach Benutzung von edit26 (Minimale JumplinienlÃ¤nge)
 function edit26_Callback(hObject, eventdata, handles)
 global Var
 MinJumplengthY=str2double(get(handles.edit26,'String'));
 if isnan(MinJumplengthY)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
     set(handles.edit26,'String',num2str(Var.MinJumplengthY));
 elseif MinJumplengthY<0
     set(handles.edit26,'String',num2str(abs(MinJumplengthY)));
@@ -1260,7 +1260,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von checkbox16 (freiwählbarer Winkel)
+%Wird ausgefÃ¼hrt nach Benutzung von checkbox16 (freiwÃ¤hlbarer Winkel)
 function checkbox16_Callback(hObject, eventdata, handles)
 set(handles.checkbox22,'Value',0);
 set(handles.checkbox16,'Value',1);
@@ -1271,7 +1271,7 @@ set(handles.edit17,'Enable','on');
 set(handles.edit18,'Enable','on');
 set(handles.edit26,'Enable','on');
 
-%Wird ausgeführt nach Benutzung von checkbox17 (grösstmöglicher Winkel)
+%Wird ausgefÃ¼hrt nach Benutzung von checkbox17 (grÃ¶sstmÃ¶glicher Winkel)
 function checkbox17_Callback(hObject, eventdata, handles)
 set(handles.checkbox22,'Value',0);
 set(handles.checkbox16,'Value',0);
@@ -1282,10 +1282,10 @@ set(handles.edit17,'Enable','off');
 set(handles.edit18,'Enable','off');
 set(handles.edit26,'Enable','off');
 
-%Wird ausgeführt nach Benutzung von checkbox21 (Winkel Anpassen)
+%Wird ausgefÃ¼hrt nach Benutzung von checkbox21 (Winkel Anpassen)
 function checkbox21_Callback(hObject, eventdata, handles)
 
-%Wird ausgeführt nach Benutzung von checkbox22 (kleinstmöglicher Winkel)
+%Wird ausgefÃ¼hrt nach Benutzung von checkbox22 (kleinstmÃ¶glicher Winkel)
 function checkbox22_Callback(hObject, eventdata, handles)
 set(handles.checkbox22,'Value',1);
 set(handles.checkbox16,'Value',0);
@@ -1296,12 +1296,12 @@ set(handles.edit17,'Enable','off');
 set(handles.edit18,'Enable','off');
 set(handles.edit26,'Enable','off');
 
-%Wird ausgeführt nach Benutzung von edit29 (Verhältnis)
+%Wird ausgefÃ¼hrt nach Benutzung von edit29 (VerhÃ¤ltnis)
 function edit29_Callback(hObject, eventdata, handles)
 global Var
 Verhaeltnis=str2double(get(handles.edit29,'String'));
 if isnan(Verhaeltnis)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
     set(handles.edit29,'String',num2str(Var.Verhaeltnis));
 elseif Verhaeltnis<0
     set(handles.edit29,'String',num2str(0));
@@ -1319,12 +1319,12 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit30 (Minimallänge)
+%Wird ausgefÃ¼hrt nach Benutzung von edit30 (MinimallÃ¤nge)
 function edit30_Callback(hObject, eventdata, handles)
 global Var
 MinimalLaenge=str2double(get(handles.edit30,'String'));
 if isnan(MinimalLaenge)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
     set(handles.edit30,'String',num2str(Var.MinimalLaenge));
 elseif MinimalLaenge<0
     set(handles.edit30,'String',num2str(abs(MinimalLaenge)));
@@ -1339,12 +1339,12 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit31 (OnDelaylänge)
+%Wird ausgefÃ¼hrt nach Benutzung von edit31 (OnDelaylÃ¤nge)
 function edit31_Callback(hObject, eventdata, handles)
 global Var
 OnDelayLength=str2double(get(handles.edit31,'String'));
 if isnan(OnDelayLength)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
     set(handles.edit31,'String',num2str(Var.OnDelayLength));
 elseif OnDelayLength<0
     set(handles.edit31,'String',num2str(abs(OnDelayLength)));
@@ -1359,12 +1359,12 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von edit32 (OffDelaylänge)
+%Wird ausgefÃ¼hrt nach Benutzung von edit32 (OffDelaylÃ¤nge)
 function edit32_Callback(hObject, eventdata, handles)
 global Var
 OffDelayLength=str2double(get(handles.edit30,'String'));
 if isnan(OffDelayLength)
-    warndlg('Ungültige Eingabe')
+    warndlg('UngÃ¼ltige Eingabe')
     set(handles.edit32,'String',num2str(Var.OffDelayLength));
 elseif OffDelayLength<0
     set(handles.edit32,'String',num2str(abs(OffDelayLength)));
@@ -1379,25 +1379,25 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-%Wird ausgeführt nach Benutzung von checkbox24 (Axialrichtung von links nach rechts)
+%Wird ausgefÃ¼hrt nach Benutzung von checkbox24 (Axialrichtung von links nach rechts)
 function checkbox24_Callback(hObject, eventdata, handles)
 set(handles.checkbox24,'Value',1);
 set(handles.checkbox26,'Value',0);
 set(handles.checkbox27,'Value',0);
 
-%Wird ausgeführt nach Benutzung von checkbox26 (Axialrichtung von rechts nach links)
+%Wird ausgefÃ¼hrt nach Benutzung von checkbox26 (Axialrichtung von rechts nach links)
 function checkbox26_Callback(hObject, eventdata, handles)
 set(handles.checkbox24,'Value',0);
 set(handles.checkbox26,'Value',1);
 set(handles.checkbox27,'Value',0);
 
-%Wird ausgeführt nach Benutzung von checkbox26 (Axialrichtung alternierend)
+%Wird ausgefÃ¼hrt nach Benutzung von checkbox26 (Axialrichtung alternierend)
 function checkbox27_Callback(hObject, eventdata, handles)
 set(handles.checkbox24,'Value',0);
 set(handles.checkbox26,'Value',0);
 set(handles.checkbox27,'Value',1);
 
-%Wird ausgeführt nach Benutzung von edit33 (Bearbeitungszeit)
+%Wird ausgefÃ¼hrt nach Benutzung von edit33 (Bearbeitungszeit)
 function edit33_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
