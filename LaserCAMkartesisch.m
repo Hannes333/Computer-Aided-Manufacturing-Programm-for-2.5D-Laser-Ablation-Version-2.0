@@ -51,6 +51,7 @@ Strahlkompensation2=0; %Soll Strahlkompensation2 angewendet werden? (1=ja) (0=ne
 KonturAbstand2=0.02; %Um diesen Abstand wird die Aussenkontur nach Innen verschoben [mm]
 Schraffur=0; %Sollen die Schraffuren berechnet werden? (1=ja) (0=nein)
 Linienabstand=0.1; %Abstand zwischen den Laserbahnen[mm]
+LinienOffsets=1;    %Linien werden versetzt um Rillen zu vermeiden  (1=ja) (0=nein)
 SchraffurSkywritestart=0.3; %Skywrite zur Beschleunigung der Spiegel und Galvamotoren [µs]
 SchraffurSkywriteend=0.3; %Skywrite zur Abbremsung der Spiegel und Galvamotoren [µs]
 Schraffurwinkelstart=0; %Richtungswinkel der ersten Schraffur [Grad]
@@ -74,6 +75,7 @@ set(handles.checkbox5,'Value',Strahlkompensation2);
 set(handles.edit12,'String',num2str(KonturAbstand2));
 set(handles.checkbox6,'Value',Schraffur);
 set(handles.edit13,'String',num2str(Linienabstand));
+set(handles.checkbox17,'Value',LinienOffsets);
 set(handles.edit26,'String',num2str(SchraffurSkywritestart));
 set(handles.edit27,'String',num2str(SchraffurSkywriteend));
 set(handles.edit28,'String',num2str(Schraffurwinkelstart));
@@ -97,6 +99,7 @@ Var.UmrandungSkywritestart=UmrandungSkywritestart;
 Var.UmrandungSkywriteend=UmrandungSkywriteend;
 Var.KonturAbstand2=KonturAbstand2;
 Var.Linienabstand=Linienabstand;
+Var.LinienOffsets=LinienOffsets;
 Var.SchraffurSkywritestart=SchraffurSkywritestart;
 Var.SchraffurSkywriteend=SchraffurSkywriteend;
 Var.Schraffurwinkelstart=Schraffurwinkelstart;
@@ -191,6 +194,7 @@ set(handles.pushbutton10,'Enable','off');
 set(handles.pushbutton11,'Enable','off');
 set(handles.checkbox15,'Enable','off');
 set(handles.checkbox16,'Enable','off');
+set(handles.checkbox17,'Enable','off');
 
 % Choose default command line output for LaserCAMkartesisch
 handles.output = hObject;
@@ -326,6 +330,7 @@ if ischar(FileName) && ischar(PathName)
         set(handles.edit34,'Enable','on');
         set(handles.checkbox15,'Enable','on');
         set(handles.checkbox16,'Enable','on');
+        set(handles.checkbox17,'Enable','on');
     else
         set(handles.edit13,'Enable','off');
         set(handles.edit26,'Enable','off');
@@ -339,6 +344,7 @@ if ischar(FileName) && ischar(PathName)
         set(handles.edit34,'Enable','off');
         set(handles.checkbox15,'Enable','off');
         set(handles.checkbox16,'Enable','off');
+        set(handles.checkbox17,'Enable','off');
     end
     
     %Schalflächen mit Ansichtwerzeugen werden aktiviert
@@ -673,6 +679,7 @@ if Schraffuren==1
     set(handles.edit34,'Enable','on');
     set(handles.checkbox15,'Enable','on');
     set(handles.checkbox16,'Enable','on');
+    set(handles.checkbox17,'Enable','on');
 else
     set(handles.edit13,'Enable','off');
     set(handles.edit26,'Enable','off');
@@ -686,6 +693,7 @@ else
     set(handles.edit34,'Enable','off');
     set(handles.checkbox15,'Enable','off');
     set(handles.checkbox16,'Enable','off');
+    set(handles.checkbox17,'Enable','off');
 end
 
 %Wird ausgeführt nach Benutzung von edit13 (Linienabstand
@@ -907,6 +915,7 @@ Strahlkompensation2=get(handles.checkbox5,'Value');
 KonturAbstand2=str2double(get(handles.edit12,'String'));
 Schraffur=get(handles.checkbox6,'Value');
 Linienabstand=str2double(get(handles.edit13,'String'));
+LinienOffsets=get(handles.checkbox17,'Value');
 SchraffurSkywritestart=str2double(get(handles.edit26,'String'));
 SchraffurSkywriteend=str2double(get(handles.edit27,'String'));
 Schraffurwinkelstart=str2double(get(handles.edit28,'String'));
@@ -1017,7 +1026,7 @@ end
 %Funktion, die die Schraffuren berechnet
 if Schraffur==1
     [Schraffuren,Bearbeitungszeit2]=F40_Schraffuren(...
-        Konturen2,Linienabstand,SchraffurSkywritestart,SchraffurSkywriteend,...
+        Konturen2,Linienabstand,LinienOffsets,SchraffurSkywritestart,SchraffurSkywriteend,...
         Schraffurwinkelstart,Schraffurwinkelinkrem,...
         Hatchtyp,MinimalLaenge,OnDelayLength,OffDelayLength,Scangeschw,Jumpgeschw);
 else
@@ -1235,6 +1244,7 @@ if ischar(FileName) && ischar(PathName)
     KonturAbstand2=str2double(text{2}(strncmpi('KonturAbstand2',text{1},14)));
     Schraffur=str2double(text{2}(strncmpi('Schraffur',text{1},9)&(9==cellfun(@length,text{1}))));
     Linienabstand=str2double(text{2}(strncmpi('Linienabstand',text{1},13)));
+    LinienOffsets=str2double(text{2}(strncmpi('LinienOffsets',text{1},13)));
     SchraffurSkywritestart=str2double(text{2}(strncmpi('SchraffurSkywritestart',text{1},22)));
     SchraffurSkywriteend=str2double(text{2}(strncmpi('SchraffurSkywriteend',text{1},20)));
     Schraffurwinkelstart=str2double(text{2}(strncmpi('Schraffurwinkelstart',text{1},16)));
@@ -1335,6 +1345,7 @@ if ischar(FileName) && ischar(PathName)
         set(handles.checkbox15,'Value',0);
         set(handles.checkbox16,'Value',1);
     end
+    set(handles.checkbox17,'Value',LinienOffsets);
     
     %Einige Variabeln werden als globable Variabeln gespeichert
     Var.Schichtdicke=Schichtdicke;
@@ -1344,6 +1355,7 @@ if ischar(FileName) && ischar(PathName)
     Var.UmrandungSkywriteend=UmrandungSkywriteend;
     Var.KonturAbstand2=KonturAbstand2;
     Var.Linienabstand=Linienabstand;
+    Var.LinienOffsets=LinienOffsets;
     Var.SchraffurSkywritestart=SchraffurSkywritestart;
     Var.SchraffurSkywriteend=SchraffurSkywriteend;
     Var.Schraffurwinkelstart=Schraffurwinkelstart;
@@ -1400,6 +1412,7 @@ if ischar(FileName) && ischar(PathName)
         set(handles.edit34,'Enable','on');
         set(handles.checkbox15,'Enable','on');
         set(handles.checkbox16,'Enable','on');
+        set(handles.checkbox17,'Enable','on');
     else
         set(handles.edit13,'Enable','off');
         set(handles.edit26,'Enable','off');
@@ -1413,7 +1426,9 @@ if ischar(FileName) && ischar(PathName)
         set(handles.edit34,'Enable','off');
         set(handles.checkbox15,'Enable','off');
         set(handles.checkbox16,'Enable','off');
+        set(handles.checkbox17,'Enable','off');
     end
+    
 end
 
 %Wird ausgeführt nach Benutzung von pushbutton11 (Aktuelle Parameterspeichern)
@@ -1440,6 +1455,7 @@ if ischar(FileName) && ischar(PathName)
     fprintf(fid,['KonturAbstand2:',get(handles.edit12,'String'),'\r\n']);
     fprintf(fid,['Schraffur:',num2str(get(handles.checkbox6,'Value')),'\r\n']);
     fprintf(fid,['Linienabstand:',get(handles.edit13,'String'),'\r\n']);
+    fprintf(fid,['LinienOffsets:',num2str(get(handles.checkbox17,'Value')),'\r\n']);
     fprintf(fid,['SchraffurSkywritestart:',get(handles.edit26,'String'),'\r\n']);
     fprintf(fid,['SchraffurSkywriteend:',get(handles.edit27,'String'),'\r\n']);
     fprintf(fid,['Schraffurwinkelstart:',get(handles.edit28,'String'),'\r\n']);
@@ -1510,3 +1526,6 @@ set(handles.checkbox16,'Value',0);
 function checkbox16_Callback(hObject, eventdata, handles)
 set(handles.checkbox15,'Value',0);
 set(handles.checkbox16,'Value',1);
+
+%Wird ausgeführt nach Benutzung von checkbox17 (Erster Linienabstand variieren)
+function checkbox17_Callback(hObject, eventdata, handles)
