@@ -13,14 +13,14 @@ clear all %Löscht alle Variabeln
 close all %Vernichtet offene Grafikfenster
 %format long g %Mehr Nachkommastellen werden angezeigt
 
-Schichtdicke=0.1; %Höhenabstand der Schichten in [mm]
+Schichtdicke=0.01; %Höhenabstand der Schichten in [mm]
 
 Auswahlhoehen=0; %Auswahl der Bearbeitungshöhen (1=ja) (0=nein)
 Auswahlhoeheoben=0; %Auswahlhöhe Oben
 Auswahlhoeheunten=-0.1; %Auswahlhöhe Unten
 
 Strahlkompensation1=0; %Soll Strahlkompensation1 angewendet werden? (1=ja) (0=nein)
-KonturAbstand1=0.05; %Um diesen Abstand wird die Aussenkontur nach Innen verschoben [mm]
+KonturAbstand1=0.1; %Um diesen Abstand wird die Aussenkontur nach Innen verschoben [mm]
 
 Umrandung=0; %Soll die umrandungs Kontur abgefahren werden? (1=ja) (0=nein)
 UmrandungBreakangle=30; %Wird dieser Winkel von Kante zu Kante überschritten, wird Skywrite eingefügt [Grad]
@@ -32,16 +32,17 @@ KonturAbstand2=0.5; %Um diesen Abstand wird die Aussenkontur nach Innen verschob
 
 Schraffur=1; %Sollen die Schraffuren berechnet werden? (1=ja) (0=nein)
 Linienabstand=0.1; %Abstand zwischen den Laserbahnen[mm]
-SchraffurSkywritestart=0; %Skywritelänge zur Beschleunigung der Spiegel und Galvamotoren [mm]
-SchraffurSkywriteend=0; %Skywritelänge zur Abbremsung der Spiegel und Galvamotoren [mm]
-Schraffurwinkelstart=90; %Richtungswinkel der ersten Schraffur [Grad]
-Schraffurwinkelinkrem=30; %Richtungswinkel der darauf folgenden Schraffuren [Grad]
+LinienOffsets=1;    %Linien werden versetzt um Rillen zu vermeiden  (1=ja) (0=nein)
+SchraffurSkywritestart=0.2; %Skywritelänge zur Beschleunigung der Spiegel und Galvamotoren [mm]
+SchraffurSkywriteend=0.2; %Skywritelänge zur Abbremsung der Spiegel und Galvamotoren [mm]
+Schraffurwinkelstart=0; %Richtungswinkel der ersten Schraffur [Grad]
+Schraffurwinkelinkrem=0; %Richtungswinkel der darauf folgenden Schraffuren [Grad]
 Hatchtyp=1; %Linienverlauf der Schraffuren (1=Rechteck) (0=Zickzack)
 MinimalLaenge=0; %Minimale Hatchsegmentlänge [mm]
 OnDelayLength=0; %Verschiebung der Startpunkte [mm] (l_on = v_s*t_on)
 OffDelayLength=0; %Verschiebung der Startpunkte [mm] (l_off = v_s*t_off)
-Scangeschw=0.25; %Einstellen der Scangeschwindigkeit [mm/s]
-Jumpgeschw=0.25; %Einstellen der Jumpgeschwindigkeit [mm/s]
+Scangeschw=1000; %Einstellen der Scangeschwindigkeit [mm/s]
+Jumpgeschw=1000; %Einstellen der Jumpgeschwindigkeit [mm/s]
 
 DStlObjekt=1; %Soll das Stl-Objekt Dargestellt werden? (1=ja) (0=nein)
 DKontur0=1; %Soll die Schnittkontur Dargestellt werden? (1=ja) (0=nein)
@@ -67,8 +68,8 @@ NCText.Header8='';
 NCText.Header9='';
 NCText.Header10='';
 NCText.Header11=['F',int2str(Scangeschw)];
-NCText.Fokus1='G00 Z(';
-NCText.Fokus2='+zFokus)';
+NCText.Fokus1='G01 Z';
+NCText.Fokus2=' F1';
 NCText.Eilgang1='G00 U';
 NCText.Eilgang2=' V';
 NCText.Eilgang3='';
@@ -81,8 +82,8 @@ NCText.Laser3='';
 NCText.EndSky1='G08 G01 U';
 NCText.EndSky2=' V';
 NCText.EndSky3='';
-NCText.Laseron='GALVO LASEROVERRIDE U ON';
-NCText.Laseroff='GALVO LASEROVERRIDE U OFF';
+NCText.Laseron='L1';
+NCText.Laseroff='L0';
 NCText.Kommentar1='//';
 NCText.Kommentar2='';
 NCText.Finish1='END PROGRAM';
@@ -90,10 +91,10 @@ NCText.Finish2='';
 NCText.Finish3='';
 NCText.Finish4='';
 NCText.Finish5='';
-NCText.EbeneSta1='CRITICAL START';
-NCText.EbeneSta2='';
+NCText.EbeneSta1='F1000';
+NCText.EbeneSta2='CRITICAL START';
 NCText.EbeneEnd1='CRITICAL END';
-NCText.EbeneEnd2='DWELL 1';
+NCText.EbeneEnd2='DWELL 0.5';
 
 %Funktion, die die Stl-Datei einliest
 [f,v,n] = F00_stlread(Pfad); 
@@ -167,7 +168,7 @@ FDSchnittkontur(DKontur2,d,Konturen2);
 
 %Funktion, die die Schraffuren berechnet
 if Schraffur==1
-    [Schraffuren,Bearbeitungszeit2]=F40_Schraffuren( Konturen2,Linienabstand,SchraffurSkywritestart,SchraffurSkywriteend,Schraffurwinkelstart,Schraffurwinkelinkrem,Hatchtyp,MinimalLaenge,OnDelayLength,OffDelayLength,Scangeschw,Jumpgeschw); 
+    [Schraffuren,Bearbeitungszeit2]=F40_Schraffuren( Konturen2,Linienabstand,LinienOffsets,SchraffurSkywritestart,SchraffurSkywriteend,Schraffurwinkelstart,Schraffurwinkelinkrem,Hatchtyp,MinimalLaenge,OnDelayLength,OffDelayLength,Scangeschw,Jumpgeschw); 
     disp('Schraffuren berechnet');
 else
     Schraffuren=cell(size(Konturen2,1),1);
