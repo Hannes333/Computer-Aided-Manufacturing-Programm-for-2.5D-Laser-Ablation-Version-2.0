@@ -587,4 +587,7 @@ end
 %close(bar); %Ladebalken schliessen
 delete(bar);
 
+%Letzter Punkt kopieren und Entschleunigungswinkel dazuaddieren
+Schraffuren{end,1}(end+1,1:4)=[Schraffuren{end,1}(end,1),Schraffuren{end,1}(end,2)+DrehoffsetStart,Schraffuren{end,1}(end,3),7];
+
 end
