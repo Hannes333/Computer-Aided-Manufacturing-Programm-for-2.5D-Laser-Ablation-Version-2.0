@@ -35,7 +35,6 @@ WinkelAnpassung=0; %Winkel anpassen damit maximale Drehzahl und Scangeschwindigk
 OnDelayLength=Scangeschw*0.000015; %Verschiebung der Startpunkte [mm] (l_on = v_s*t_on)
 OffDelayLength=Scangeschw*0.000015; %Verschiebung der Startpunkte [mm] (l_off = v_s*t_off)
 MinimalLaenge=0.1; %Minimale Hatchsegmentlänge [mm]
-%MinimalLaenge=Scangeschw*(0.000015-0.000015); %Minimale Hatchsegmentlänge [mm]
 AxialRichtung=3;    %(Von links nach rechts=1 ,von rechts nach links=2, alternieren=3)
 
 DStlObjekt1=1; %Soll das zylindrische Stl-Objekt Dargestellt werden? (1=ja) (0=nein)
@@ -43,12 +42,6 @@ DStlObjekt2=1; %Soll das kartesische Stl-Objekt Dargestellt werden? (1=ja) (0=ne
 DKontur=1; %Soll die Schnittkontur Dargestellt werden? (1=ja) (0=nein)
 DSchraffur=1; %Soll die Laserbahn der Schraffur Dargestellt werden? (1=ja) (0=nein)
 d=1; %Ebene die Dargestellt werden soll
-
-[FileName,PathName] = uigetfile('*.stl','Auswahl des Stl-Objekts');
-Pfad=[PathName,FileName];
-%Pfad='ETHZylinder2mmNegativ.stl';
-Titel=[FileName(1:end-4),'NCCode','.txt'];
-%Titel='ETHZylinderNCcode.txt';
 
 %Einzelne CodeSchnipsel aus denen der NCCode zusammengestellt wird
 NCText.Header1='G90';
@@ -95,6 +88,11 @@ NCText.EbeneSta1='';
 NCText.EbeneSta2='';
 NCText.EbeneEnd1='';
 NCText.EbeneEnd2='';
+
+%Dialogfenster zum einlesen der Stl-Datei
+[FileName,PathName] = uigetfile('*.stl','Auswahl des Stl-Objekts');
+Pfad=[PathName,FileName];
+Titel=[FileName(1:end-4),'NCCode','.txt'];
 
 %Funktion, die die Stl-Datei einliest
 [f,v,n] = F00_stlread(Pfad); 
