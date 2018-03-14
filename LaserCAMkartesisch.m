@@ -152,6 +152,8 @@ Var.NCText.EbeneEnd2='DWELL 1';
 
 %Pfad, wo der NC-Code gespeichert werden soll
 Var.FolderName='';
+%Pfad, wo die Stl-Dateien ausgelesen werden sollen
+Var.PathName='';
 
 %Alle Felder bis auf den STL-Datei importieren Button müssen inaktiv sein
 set(handles.checkbox1,'Enable','off');
@@ -219,11 +221,12 @@ varargout{1} = handles.output;
 function pushbutton1_Callback(hObject, eventdata, handles)
 global Var
 
-[FileName,PathName] = uigetfile('*.stl','Auswahl der Stl-Datei');
+[FileName,PathName] = uigetfile('*.stl','Auswahl der Stl-Datei',Var.PathName);
 if ischar(FileName) && ischar(PathName)
     Pfad=[PathName,FileName];
     Titel=[FileName(1:end-4),'NCCode'];
     Var.Titel=Titel;
+    Var.PathName=PathName;
     
     %Funktion, die die Stl-Datei einliest
     [f,v,n] = F00_stlread(Pfad); 
@@ -1223,7 +1226,7 @@ function pushbutton10_Callback(hObject, eventdata, handles)
 global Var
 
 %Dialogfenster um Ladeverzeichnis zu wählen
-[FileName,PathName] = uigetfile('*.txt','Einstellungen laden');
+[FileName,PathName] = uigetfile('*.txt','Einstellungen laden',Var.PathName);
 if ischar(FileName) && ischar(PathName)
     fid = fopen([PathName,FileName], 'r'); %txt-file wird geöffnet
     %Textdatei einlesen, Zeilen mit '%' ignorieren und ':' als Separator verwenden
@@ -1345,7 +1348,11 @@ if ischar(FileName) && ischar(PathName)
         set(handles.checkbox15,'Value',0);
         set(handles.checkbox16,'Value',1);
     end
-    set(handles.checkbox17,'Value',LinienOffsets);
+    if LinienOffsets==0
+        set(handles.checkbox17,'Value',0);
+    elseif LinienOffsets==1
+        set(handles.checkbox17,'Value',1);
+    end
     
     %Einige Variabeln werden als globable Variabeln gespeichert
     Var.Schichtdicke=Schichtdicke;

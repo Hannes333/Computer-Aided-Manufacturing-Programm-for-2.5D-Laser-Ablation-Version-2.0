@@ -139,6 +139,8 @@ Var.NCText=NCText;
 
 %Pfad, wo der NC-Code gespeichert werden soll
 Var.FolderName='';
+%Pfad, wo die Stl-Dateien ausgelesen werden sollen
+Var.PathName='';
 
 %Alle Felder bis auf den STL-Datei importieren Button müssen inaktiv sein
 set(handles.edit1,'Enable','off');
@@ -189,8 +191,9 @@ varargout{1} = handles.output;
 function pushbutton1_Callback(hObject, eventdata, handles)
 global Var
 
-[FileName,PathName] = uigetfile('*.stl','Auswahl der Stl-Datei');
+[FileName,PathName] = uigetfile('*.stl','Auswahl der Stl-Datei',Var.PathName);
 if ischar(FileName) && ischar(PathName)
+    Var.PathName=PathName;
     Pfad=[PathName,FileName];
     Titel=[FileName(1:end-4),'NCCode'];
     Var.Titel=Titel;
