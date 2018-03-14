@@ -1,31 +1,31 @@
-%Dieses Skript führt die gesammte CAM Bahnberechnung durch
-%!!!Für Kartesische Werkstücke!!!
-%Für jeden Bearbeitungsschritt wird die entsprechende Teilfunktion aufgerufen
+%Dieses Skript fÃ¼hrt die gesammte CAM Bahnberechnung durch
+%!!!FÃ¼r Kartesische WerkstÃ¼cke!!!
+%FÃ¼r jeden Bearbeitungsschritt wird die entsprechende Teilfunktion aufgerufen
 %Die Teilfunktione beginnen mit dem Buchsstaben F
-%Für die Entwicklung von neuem Programmcode, empfielt sich zuerst nur mit diesem
-%Skript ohne Benutzeroberfläche zu arbeiten, weil es übersichtlicher ist.
+%FÃ¼r die Entwicklung von neuem Programmcode, empfielt sich zuerst nur mit diesem
+%Skript ohne BenutzeroberflÃ¤che zu arbeiten, weil es Ã¼bersichtlicher ist.
 %In einem zweiten Schritt, kann dann der Programmcode in die
-%Benutzeroberfläche integriert werden
-%Das Skript zur Benutzeroberfläche lautet LaserCAM.m
+%BenutzeroberflÃ¤che integriert werden
+%Das Skript zur BenutzeroberflÃ¤che lautet LaserCAM.m
 
 clc %Bereinigt das Command Window
-clear all %Löscht alle Variabeln
+clear all %LÃ¶scht alle Variabeln
 close all %Vernichtet offene Grafikfenster
 %format long g %Mehr Nachkommastellen werden angezeigt
 
-Schichtdicke=0.01; %Höhenabstand der Schichten in [mm]
+Schichtdicke=0.01; %HÃ¶henabstand der Schichten in [mm]
 
-Auswahlhoehen=0; %Auswahl der Bearbeitungshöhen (1=ja) (0=nein)
-Auswahlhoeheoben=0; %Auswahlhöhe Oben
-Auswahlhoeheunten=-0.1; %Auswahlhöhe Unten
+Auswahlhoehen=0; %Auswahl der BearbeitungshÃ¶hen (1=ja) (0=nein)
+Auswahlhoeheoben=0; %AuswahlhÃ¶he Oben
+Auswahlhoeheunten=-0.1; %AuswahlhÃ¶he Unten
 
 Strahlkompensation1=0; %Soll Strahlkompensation1 angewendet werden? (1=ja) (0=nein)
 KonturAbstand1=0.1; %Um diesen Abstand wird die Aussenkontur nach Innen verschoben [mm]
 
 Umrandung=0; %Soll die umrandungs Kontur abgefahren werden? (1=ja) (0=nein)
-UmrandungBreakangle=30; %Wird dieser Winkel von Kante zu Kante überschritten, wird Skywrite eingefügt [Grad]
-UmrandungSkywritestart=0.1; %Skywritelänge zur Beschleunigung der Spiegel und Galvamotoren [mm]
-UmrandungSkywriteend=0.1; %Skywritelänge zur Abbremsung der Spiegel und Galvamotoren [mm]
+UmrandungBreakangle=30; %Wird dieser Winkel von Kante zu Kante Ã¼berschritten, wird Skywrite eingefÃ¼gt [Grad]
+UmrandungSkywritestart=0.1; %SkywritelÃ¤nge zur Beschleunigung der Spiegel und Galvamotoren [mm]
+UmrandungSkywriteend=0.1; %SkywritelÃ¤nge zur Abbremsung der Spiegel und Galvamotoren [mm]
 
 Strahlkompensation2=0; %Soll Strahlkompensation2 angewendet werden? (1=ja) (0=nein)
 KonturAbstand2=0.5; %Um diesen Abstand wird die Aussenkontur nach Innen verschoben [mm]
@@ -33,12 +33,12 @@ KonturAbstand2=0.5; %Um diesen Abstand wird die Aussenkontur nach Innen verschob
 Schraffur=1; %Sollen die Schraffuren berechnet werden? (1=ja) (0=nein)
 Linienabstand=0.1; %Abstand zwischen den Laserbahnen[mm]
 LinienOffsets=1;    %Linien werden versetzt um Rillen zu vermeiden  (1=ja) (0=nein)
-SchraffurSkywritestart=0.2; %Skywritelänge zur Beschleunigung der Spiegel und Galvamotoren [mm]
-SchraffurSkywriteend=0.2; %Skywritelänge zur Abbremsung der Spiegel und Galvamotoren [mm]
+SchraffurSkywritestart=0.2; %SkywritelÃ¤nge zur Beschleunigung der Spiegel und Galvamotoren [mm]
+SchraffurSkywriteend=0.2; %SkywritelÃ¤nge zur Abbremsung der Spiegel und Galvamotoren [mm]
 Schraffurwinkelstart=0; %Richtungswinkel der ersten Schraffur [Grad]
 Schraffurwinkelinkrem=0; %Richtungswinkel der darauf folgenden Schraffuren [Grad]
 Hatchtyp=1; %Linienverlauf der Schraffuren (1=Rechteck) (0=Zickzack)
-MinimalLaenge=0; %Minimale Hatchsegmentlänge [mm]
+MinimalLaenge=0; %Minimale HatchsegmentlÃ¤nge [mm]
 OnDelayLength=0; %Verschiebung der Startpunkte [mm] (l_on = v_s*t_on)
 OffDelayLength=0; %Verschiebung der Startpunkte [mm] (l_off = v_s*t_off)
 Scangeschw=1000; %Einstellen der Scangeschwindigkeit [mm/s]
@@ -51,10 +51,6 @@ DKontur2=1; %Soll die Kontur nach Strahlkompensation2 Dargestellt werden? (1=ja)
 DUmrandung=1; %Soll die Laserbahn der Umrandung Dargestellt werden? (1=ja) (0=nein)
 DSchraffur=1; %Soll die Laserbahn der Schraffur Dargestellt werden? (1=ja) (0=nein)
 d=1; %Ebene die Dargestellt werden soll
-
-[FileName,PathName] = uigetfile('*.stl','Auswahl des Stl-Objekts');
-Pfad=[PathName,FileName];
-Titel=[FileName(1:end-4),'NCCode','.txt'];
 
 %Einzelne CodeSchnipsel aus denen der NCCode zusammengestellt wird
 NCText.Header1='G90';
@@ -96,9 +92,14 @@ NCText.EbeneSta2='CRITICAL START';
 NCText.EbeneEnd1='CRITICAL END';
 NCText.EbeneEnd2='DWELL 0.5';
 
+%Dialogfenster zum einlesen der Stl-Datei
+[FileName,PathName] = uigetfile('*.stl','Auswahl des Stl-Objekts');
+Pfad=[PathName,FileName];
+Titel=[FileName(1:end-4),'NCCode','.txt'];
+
 %Funktion, die die Stl-Datei einliest
 [f,v,n] = F00_stlread(Pfad); 
-fv.vertices=v; %v enthält die Koordinaten der Eckpunkte
+fv.vertices=v; %v enthÃ¤lt die Koordinaten der Eckpunkte
 fv.faces=f; %f sagt, welche drei Eckpunkte aus v ein Dreieck bilden
 disp('Stl-Objekt eingelesen');
 
@@ -176,7 +177,7 @@ else
 end
 
 Bearbeitungszeit=Bearbeitungszeit1+Bearbeitungszeit2;
-disp(['Geschätze Bearbeitungszeit: ',num2str(floor(Bearbeitungszeit/60)),'min ',num2str(mod(Bearbeitungszeit,60),'%4.1f'),'s']);
+disp(['GeschÃ¤tze Bearbeitungszeit: ',num2str(floor(Bearbeitungszeit/60)),'min ',num2str(mod(Bearbeitungszeit,60),'%4.1f'),'s']);
 
 %Darstellung der Schraffuren
 FDSchraffur(DSchraffur,d,Schraffuren);
