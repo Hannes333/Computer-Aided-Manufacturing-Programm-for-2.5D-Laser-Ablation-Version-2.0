@@ -72,10 +72,10 @@ NCText.Hatchscan1='G08 G01 U';
 NCText.Hatchscan2=' V';
 NCText.Hatchscan3=' F100';
 
+%Dialogfenster zum einlesen der Stl-Datei
 [FileName,PathName] = uigetfile('*.stl','Auswahl des Stl-Objekts');
 Pfad=[PathName,FileName];
 Titel=[FileName(1:end-4),'NCCode','.txt'];
-%Pfad='C:\Users\Johannes\Desktop\BASA Gysel\CAMK 23\Dingsbums.stl';
 
 %Funktion, die die Stl-Datei einliest
 [f1,v1,n1] = F00_stlread(Pfad); 
