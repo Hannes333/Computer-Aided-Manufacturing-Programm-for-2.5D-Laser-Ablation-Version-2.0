@@ -104,7 +104,7 @@ for k=1:size(Konturen,1) %Index, der durch die Ebenen von Konturen geht
         SchnittHoehe=Konturen{k,1}(1,3);
         Umfang(k)=(2*pi*SchnittHoehe);
         
-        WinkelKlein=atand((Verhaeltnis*Linienabstand)/BreiteX(k)); %kleinstmöglicher Winkel
+        WinkelKlein=atand((Verhaeltnis*Linienabstand)/(BreiteX(k)+Skywritestart+Skywriteend)); %kleinstmöglicher Winkel
         WinkelMax=asind((VorschubAmax*Umfang(k))/(360*Scangeschw)); %Maximalmöglicher Winkel ohne überschreitung der maximalen Drehzahl und Scangeschwindigkeit
         WinkelGross=atand(Umfang(k)/Linienabstand); %grössmöglicher Winkel 
         if Schraffurwinkelinkrem==0 || k==1 %Winkelinkrement wird nicht verwendet
@@ -181,10 +181,9 @@ for k=1:size(Konturen,1) %Index, der durch die Ebenen von Konturen geht
         WinkelN(k)=-Winkel(k); %Vorzeichenwechsel damit Darstellung intuitiver
         Anzahllinien(k)=(Umfang(k)*cosd(WinkelN(k)))/Linienabstand; %Anzahl Linien die in einen Umfang passen bei gegebenem Winkel
         %%% Mit Linienoffsets
-        if mod(k,2)==1
+        if mod(k,2)==0 %Gerade Ebene
             Anzahllinien(k)=Anzahllinien(k);
-        else
-            Anzahllinien(k)=Anzahllinien(k-1);
+            Anzahllinien(k-1)=Anzahllinien(k);
         end
         Linienabstande(k)=(Umfang(k)*cosd(WinkelN(k)))/round(Anzahllinien(k)); %Angepasster Linienabstand damit die obere Schraffurkante indentisch mit der Unteren ist
         LinienabstandeN(k)=Linienabstande(k)/cosd(WinkelN(k)); %Linienabstand für Berechnungen inerhalb der Verzerrung
