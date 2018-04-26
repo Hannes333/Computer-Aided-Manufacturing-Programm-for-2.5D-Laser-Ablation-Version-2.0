@@ -259,7 +259,7 @@ if ischar(FileName) && ischar(PathName)
     v1(:,2)=v1(:,2)*-(360/(2*pi*RadiusMax)); %Anpassung der orignal Stldatei an die Skalierung in Grad der Y-Richtung
     fv1.vertices=v1; %v enthält die Koordinaten der Eckpunkte
     fv1.faces=f; %f sagt, welche drei Eckpunkte aus v ein Dreieck bilden
-    FD2StlObjekt(1,fv1,[0.2 0.2 0.8],RadiusMax);
+    FD2StlObjekt(1,fv1,[0.3 0.3 0.3],RadiusMax);
     view([45 45]); %Set a nice view angle
     camlight(0,0); %Lichtquelle hinzufügen
     
@@ -270,7 +270,7 @@ if ischar(FileName) && ischar(PathName)
     %Darstellung des Stl-Objekts nach der Koordinatentrasformation
     fv2.vertices=v2; %v enthält die Koordinaten der Eckpunkte
     fv2.faces=f2; %f sagt, welche drei Eckpunkte aus v ein Dreieck bilden
-    FD2StlObjekt(1,fv2,[0.2 0.8 0.8],RadiusMax);
+    FD2StlObjekt(1,fv2,[0.8 0.8 0.8],RadiusMax);
     
     %Übergabe der Variablen
     Var.v2=v2;
@@ -682,7 +682,7 @@ d=1;
 
 %Darstellung des Stl-objekts
 cla %Grafik zurücksetzen
-FD2StlObjekt(1,Var.fv2,[0.2 0.8 0.8],RadiusMax);
+FD2StlObjekt(1,Var.fv2,[0.8 0.8 0.8],RadiusMax);
 camlight(0,0); %Lichtquelle hinzufügen
 %Entsprechende Schaltflächen zur Darstellung werden sichtbar gemacht
 set(handles.checkbox9,'Value',0); %Checkbox Darstellung Schnittkontur
@@ -760,8 +760,8 @@ DKontur=get(handles.checkbox11,'Value');
 DSchraffur=get(handles.checkbox12,'Value');
 d=abs(get(handles.slider1,'Value'));
 cla %Grafik zurücksetzen
-FD2StlObjekt(DStlObjekt1,Var.fv1,[0.2 0.2 0.8],Var.RadiusMax);
-FD2StlObjekt(DStlObjekt2,Var.fv2,[0.2 0.8 0.8],Var.RadiusMax);
+FD2StlObjekt(DStlObjekt1,Var.fv1,[0.3 0.3 0.3],Var.RadiusMax);
+FD2StlObjekt(DStlObjekt2,Var.fv2,[0.8 0.8 0.8],Var.RadiusMax);
 camlight(0,0); %Lichtquelle hinzufügen
 if DKontur==1
     FD2Schnittkontur(DKontur,d,Var.Konturen,Var.RadiusMax);
@@ -779,8 +779,8 @@ DKontur=get(handles.checkbox11,'Value');
 DSchraffur=get(handles.checkbox12,'Value');
 d=abs(get(handles.slider1,'Value'));
 cla %Grafik zurücksetzen
-FD2StlObjekt(DStlObjekt1,Var.fv1,[0.2 0.2 0.8],Var.RadiusMax);
-FD2StlObjekt(DStlObjekt2,Var.fv2,[0.2 0.8 0.8],Var.RadiusMax);
+FD2StlObjekt(DStlObjekt1,Var.fv1,[0.3 0.3 0.3],Var.RadiusMax);
+FD2StlObjekt(DStlObjekt2,Var.fv2,[0.8 0.8 0.8],Var.RadiusMax);
 camlight(0,0); %Lichtquelle hinzufügen
 if DKontur==1
     FD2Schnittkontur(DKontur,d,Var.Konturen,Var.RadiusMax);
@@ -798,8 +798,8 @@ DKontur=get(handles.checkbox11,'Value');
 DSchraffur=get(handles.checkbox12,'Value');
 d=abs(get(handles.slider1,'Value'));
 cla %Grafik zurücksetzen
-FD2StlObjekt(DStlObjekt1,Var.fv1,[0.2 0.2 0.8],Var.RadiusMax);
-FD2StlObjekt(DStlObjekt2,Var.fv2,[0.2 0.8 0.8],Var.RadiusMax);
+FD2StlObjekt(DStlObjekt1,Var.fv1,[0.3 0.3 0.3],Var.RadiusMax);
+FD2StlObjekt(DStlObjekt2,Var.fv2,[0.8 0.8 0.8],Var.RadiusMax);
 camlight(0,0); %Lichtquelle hinzufügen
 if DKontur==1
     FD2Schnittkontur(DKontur,d,Var.Konturen,Var.RadiusMax);
@@ -817,8 +817,8 @@ DKontur=get(handles.checkbox11,'Value');
 DSchraffur=get(handles.checkbox12,'Value');
 d=abs(get(handles.slider1,'Value'));
 cla %Grafik zurücksetzen
-FD2StlObjekt(DStlObjekt1,Var.fv1,[0.2 0.2 0.8],Var.RadiusMax);
-FD2StlObjekt(DStlObjekt2,Var.fv2,[0.2 0.8 0.8],Var.RadiusMax);
+FD2StlObjekt(DStlObjekt1,Var.fv1,[0.3 0.3 0.3],Var.RadiusMax);
+FD2StlObjekt(DStlObjekt2,Var.fv2,[0.8 0.8 0.8],Var.RadiusMax);
 camlight(0,0); %Lichtquelle hinzufügen
 if DKontur==1
     FD2Schnittkontur(DKontur,d,Var.Konturen,Var.RadiusMax);
@@ -843,8 +843,8 @@ DKontur=get(handles.checkbox11,'Value');
 DSchraffur=get(handles.checkbox12,'Value');
 d=abs(get(handles.slider1,'Value'));
 cla
-FD2StlObjekt(DStlObjekt1,Var.fv1,[0.2 0.2 0.8],Var.RadiusMax);
-FD2StlObjekt(DStlObjekt2,Var.fv2,[0.2 0.8 0.8],Var.RadiusMax);
+FD2StlObjekt(DStlObjekt1,Var.fv1,[0.3 0.3 0.3],Var.RadiusMax);
+FD2StlObjekt(DStlObjekt2,Var.fv2,[0.8 0.8 0.8],Var.RadiusMax);
 camlight(0,0); %Lichtquelle hinzufügen
 if DKontur==1
     FD2Schnittkontur(DKontur,d,Var.Konturen,Var.RadiusMax);
