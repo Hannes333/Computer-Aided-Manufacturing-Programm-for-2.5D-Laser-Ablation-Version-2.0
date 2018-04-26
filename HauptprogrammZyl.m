@@ -104,7 +104,7 @@ v1=v;
 v1(:,2)=v1(:,2)*-(360/(2*pi*RadiusMax)); %Anpassung der orignal Stldatei an die Skalierung in Grad der Y-Richtung
 fv1.vertices=v1; %v enthält die Koordinaten der Eckpunkte
 fv1.faces=f; %f sagt, welche drei Eckpunkte aus v ein Dreieck bilden
-FD2StlObjekt(DStlObjekt1,fv1,[0.2 0.2 0.8],RadiusMax);
+FD2StlObjekt(DStlObjekt1,fv1,[0.3 0.3 0.3],RadiusMax);
 view([45 45]); %Set a nice view angle
 
 %Funktion, die die Stl-Datei von Kartesisch- in Zylinderkoordinaten umwandelt
@@ -114,7 +114,7 @@ disp('Transformation durchgeführt');
 %Darstellung des Stl-Objekts nach der Koordinatentrasformation
 fv2.vertices=v2; %v enthält die Koordinaten der Eckpunkte
 fv2.faces=f2; %f sagt, welche drei Eckpunkte aus v ein Dreieck bilden
-FD2StlObjekt(DStlObjekt2,fv2,[0.2 0.8 0.8],RadiusMax);
+FD2StlObjekt(DStlObjekt2,fv2,[0.8 0.8 0.8],RadiusMax);
 camlight(0,0); %Lichtquelle hinzufügen
 
 %Funktion, die die Schnitthoehen berechnet wird aufgerufen
@@ -161,8 +161,8 @@ disp('NC-Code erstellt');
 %{
 cla
 d=1; %Ebene die dargestellt werden soll
-%FD2StlObjekt(DStlObjekt1,fv1,[0.2 0.2 0.8],RadiusMax); %Erstellt ein neues Fenster...
-FD2StlObjekt(DStlObjekt2,fv2,[0.2 0.8 0.8],RadiusMax);
+%FD2StlObjekt(DStlObjekt1,fv1,[0.3 0.3 0.3],RadiusMax); %Erstellt ein neues Fenster...
+FD2StlObjekt(DStlObjekt2,fv2,[0.8 0.8 0.8],RadiusMax);
 camlight(0,0); %Lichtquelle hinzufügen
 FD2Schnittkontur(DKontur,d,Konturen,RadiusMax);
 FD2Schraffur(DSchraffur,d,Schraffuren,RadiusMax);
