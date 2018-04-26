@@ -225,24 +225,26 @@ function [ Schraffuren,Bearbeitungszeit ] = F40_Schraffuren(...
 
         %Schritt4: Kurze Liniensegmente entfernen
             if MinimalLaenge~=0
-                for XLineIndex=1:size(XLines,1) %XLineIndex itteriert durch alle XLinien 
-                    %Laserlinien die kürzer als MinimalLaengeN entfernen
-                    if ~isempty(XLines{XLineIndex,1})
-                        LaserDistancesX=XLines{XLineIndex,1}(2:2:end,2)-XLines{XLineIndex,1}(1:2:end-1,2);
-                        Delete1=abs(LaserDistancesX)<MinimalLaenge;
-                        Delete2=zeros(2*size(Delete1,1),1);
-                        Delete2(1:2:end,1)=Delete1;
-                        Delete2(2:2:end,1)=Delete1;
-                        XLines{XLineIndex,1}=XLines{XLineIndex,1}(~Delete2,:);
-                    end
-                    %Zwischenlinien die kürzer als MinimalLaengeN entfernen
-                    if ~isempty(XLines{XLineIndex,1})
-                        ZwischenDistancesX=XLines{XLineIndex,1}(3:2:end-1,2)-XLines{XLineIndex,1}(2:2:end-2,2);
-                        Delete3=abs(ZwischenDistancesX)<MinimalLaenge;
-                        Delete4=zeros(2*size(Delete3,1)+2,1);
-                        Delete4(2:2:end-2,1)=Delete3;
-                        Delete4(3:2:end-1,1)=Delete3;
-                        XLines{XLineIndex,1}=XLines{XLineIndex,1}(~Delete4,:);
+                if ~isempty(XLines)
+                    for XLineIndex=1:size(XLines,1) %XLineIndex itteriert durch alle XLinien 
+                        %Laserlinien die kürzer als MinimalLaengeN entfernen
+                        if ~isempty(XLines{XLineIndex,1})
+                            LaserDistancesX=XLines{XLineIndex,1}(2:2:end,2)-XLines{XLineIndex,1}(1:2:end-1,2);
+                            Delete1=abs(LaserDistancesX)<MinimalLaenge;
+                            Delete2=zeros(2*size(Delete1,1),1);
+                            Delete2(1:2:end,1)=Delete1;
+                            Delete2(2:2:end,1)=Delete1;
+                            XLines{XLineIndex,1}=XLines{XLineIndex,1}(~Delete2,:);
+                        end
+                        %Zwischenlinien die kürzer als MinimalLaengeN entfernen
+                        if ~isempty(XLines{XLineIndex,1})
+                            ZwischenDistancesX=XLines{XLineIndex,1}(3:2:end-1,2)-XLines{XLineIndex,1}(2:2:end-2,2);
+                            Delete3=abs(ZwischenDistancesX)<MinimalLaenge;
+                            Delete4=zeros(2*size(Delete3,1)+2,1);
+                            Delete4(2:2:end-2,1)=Delete3;
+                            Delete4(3:2:end-1,1)=Delete3;
+                            XLines{XLineIndex,1}=XLines{XLineIndex,1}(~Delete4,:);
+                        end
                     end
                 end
             end
@@ -268,60 +270,62 @@ function [ Schraffuren,Bearbeitungszeit ] = F40_Schraffuren(...
             %disp('Schritt 6');
             %tic
             if Skywritestart~=0||Skywriteend~=0 %if Skywrite==1
-                for XLineIndex=1:size(XLines,1) %XLineindex itteriert durch XLines
-                    if ~isempty(XLines{XLineIndex,1})
-                        if mod(XLineIndex,2)==1 || Hatchtyp==0 %aufsteigend
-                            laenge=size(XLines{XLineIndex,1},1);
-                            LinePts=zeros(laenge*2,4); %Array zur Speicherung aktueller LinienPunkte
-                            LinePts(2:laenge+1,2)=XLines{XLineIndex,1}(:,2);
-                            LinePts(2:2:laenge+1,4)=4; %Jeder zweite Eintrag in der vierten Spalte wird auf 4 (Laserlinie) gesetzt
-                            LinePts(3:2:laenge+1,4)=3; %Jeder zweite Eintrag in der vierten Spalte wird auf 3 (EndSkywriteline) gesetzt
-                            LinePts(1,[2,4])=[LinePts(2,2)-Skywritestart,2]; %Erste Startskywritelinie
-                            LinePts(laenge+2,[2,4])=[LinePts(laenge+1,2)+Skywriteend,0]; %Letzte Endskywritelinie
-                            %Zwischenskywritelinien berechen
-                            Start=3;
-                            Stop=laenge+1;
-                            while Start<Stop
-                                if LinePts(Start+1,2)-LinePts(Start,2)<(Skywritestart+Skywriteend) %Zwischenskywritelinie existiert nicht
-                                    Start=Start+2;
-                                else %Zwischenskywritelinie existiert und wird eingefügt
-                                    LinePts(Start+3:Stop+3,[2,4])=LinePts(Start+1:Stop+1,[2,4]); %Restliche Punkte aufschieben
-                                    LinePts(Start+1,[2,4])=[LinePts(Start,2)+Skywritestart,0]; %StartSkywritelinie einfügen
-                                    LinePts(Start+2,[2,4])=[LinePts(Start+3,2)-Skywriteend,2]; %Eilgang einfügen
-                                    Start=Start+2;
-                                    Stop=Stop+2;
+                if ~isempty(XLines)
+                    for XLineIndex=1:size(XLines,1) %XLineindex itteriert durch XLines
+                        if ~isempty(XLines{XLineIndex,1})
+                            if mod(XLineIndex,2)==1 || Hatchtyp==0 %aufsteigend
+                                laenge=size(XLines{XLineIndex,1},1);
+                                LinePts=zeros(laenge*2,4); %Array zur Speicherung aktueller LinienPunkte
+                                LinePts(2:laenge+1,2)=XLines{XLineIndex,1}(:,2);
+                                LinePts(2:2:laenge+1,4)=4; %Jeder zweite Eintrag in der vierten Spalte wird auf 4 (Laserlinie) gesetzt
+                                LinePts(3:2:laenge+1,4)=3; %Jeder zweite Eintrag in der vierten Spalte wird auf 3 (EndSkywriteline) gesetzt
+                                LinePts(1,[2,4])=[LinePts(2,2)-Skywritestart,2]; %Erste Startskywritelinie
+                                LinePts(laenge+2,[2,4])=[LinePts(laenge+1,2)+Skywriteend,0]; %Letzte Endskywritelinie
+                                %Zwischenskywritelinien berechen
+                                Start=3;
+                                Stop=laenge+1;
+                                while Start<Stop
+                                    if LinePts(Start+1,2)-LinePts(Start,2)<(Skywritestart+Skywriteend) %Zwischenskywritelinie existiert nicht
+                                        Start=Start+2;
+                                    else %Zwischenskywritelinie existiert und wird eingefügt
+                                        LinePts(Start+3:Stop+3,[2,4])=LinePts(Start+1:Stop+1,[2,4]); %Restliche Punkte aufschieben
+                                        LinePts(Start+1,[2,4])=[LinePts(Start,2)+Skywritestart,0]; %StartSkywritelinie einfügen
+                                        LinePts(Start+2,[2,4])=[LinePts(Start+3,2)-Skywriteend,2]; %Eilgang einfügen
+                                        Start=Start+2;
+                                        Stop=Stop+2;
+                                    end
                                 end
-                            end
-                            LinePts(Stop+2:end,:)=[]; %Restliche Einträge entfernen
-                            LinePts(:,1)=XLines{XLineIndex,1}(1,1); %XKolone ergänzen
-                            LinePts(:,3)=XLines{XLineIndex,1}(1,3); %ZKolone ergänzen
-                            XLines{XLineIndex,1}=LinePts;
-                        else %absteigend
-                            laenge=size(XLines{XLineIndex,1},1);
-                            LinePts=zeros(laenge*2,4); %Array zur Speicherung aktueller LinienPunkte
-                            LinePts(2:laenge+1,2)=XLines{XLineIndex,1}(:,2);
-                            LinePts(2:2:laenge+1,4)=4; %Jeder zweite Eintrag in der vierten Spalte wird auf 4 (Laserlinie) gesetzt
-                            LinePts(3:2:laenge+1,4)=3; %Jeder zweite Eintrag in der vierten Spalte wird auf 3 (EndSkywriteline) gesetzt
-                            LinePts(1,[2,4])=[LinePts(2,2)+Skywriteend,2]; %Letzte Endskywritelinie
-                            LinePts(laenge+2,[2,4])=[LinePts(laenge+1,2)-Skywritestart,0]; %Erste Startskywritelinie
-                            %Zwischenskywritelinien berechen
-                            Start=3;
-                            Stop=laenge+1;
-                            while Start<Stop
-                                if LinePts(Start,2)-LinePts(Start+1,2)<(Skywritestart+Skywriteend) %Zwischenskywritelinie existiert nicht
-                                    Start=Start+2;
-                                else %Zwischenskywritelinie existiert und wird eingefügt
-                                    LinePts(Start+3:Stop+3,[2,4])=LinePts(Start+1:Stop+1,[2,4]); %Restliche Punkte aufschieben
-                                    LinePts(Start+1,[2,4])=[LinePts(Start,2)-Skywriteend,0]; %StartSkywritelinie einfügen
-                                    LinePts(Start+2,[2,4])=[LinePts(Start+3,2)+Skywritestart,2]; %Eilgang einfügen
-                                    Start=Start+4;
-                                    Stop=Stop+2;
+                                LinePts(Stop+2:end,:)=[]; %Restliche Einträge entfernen
+                                LinePts(:,1)=XLines{XLineIndex,1}(1,1); %XKolone ergänzen
+                                LinePts(:,3)=XLines{XLineIndex,1}(1,3); %ZKolone ergänzen
+                                XLines{XLineIndex,1}=LinePts;
+                            else %absteigend
+                                laenge=size(XLines{XLineIndex,1},1);
+                                LinePts=zeros(laenge*2,4); %Array zur Speicherung aktueller LinienPunkte
+                                LinePts(2:laenge+1,2)=XLines{XLineIndex,1}(:,2);
+                                LinePts(2:2:laenge+1,4)=4; %Jeder zweite Eintrag in der vierten Spalte wird auf 4 (Laserlinie) gesetzt
+                                LinePts(3:2:laenge+1,4)=3; %Jeder zweite Eintrag in der vierten Spalte wird auf 3 (EndSkywriteline) gesetzt
+                                LinePts(1,[2,4])=[LinePts(2,2)+Skywriteend,2]; %Letzte Endskywritelinie
+                                LinePts(laenge+2,[2,4])=[LinePts(laenge+1,2)-Skywritestart,0]; %Erste Startskywritelinie
+                                %Zwischenskywritelinien berechen
+                                Start=3;
+                                Stop=laenge+1;
+                                while Start<Stop
+                                    if LinePts(Start,2)-LinePts(Start+1,2)<(Skywritestart+Skywriteend) %Zwischenskywritelinie existiert nicht
+                                        Start=Start+2;
+                                    else %Zwischenskywritelinie existiert und wird eingefügt
+                                        LinePts(Start+3:Stop+3,[2,4])=LinePts(Start+1:Stop+1,[2,4]); %Restliche Punkte aufschieben
+                                        LinePts(Start+1,[2,4])=[LinePts(Start,2)-Skywriteend,0]; %StartSkywritelinie einfügen
+                                        LinePts(Start+2,[2,4])=[LinePts(Start+3,2)+Skywritestart,2]; %Eilgang einfügen
+                                        Start=Start+4;
+                                        Stop=Stop+2;
+                                    end
                                 end
+                                LinePts(Stop+2:end,:)=[]; %Restliche Einträge entfernen
+                                LinePts(:,1)=XLines{XLineIndex,1}(1,1); %XKolone ergänzen
+                                LinePts(:,3)=XLines{XLineIndex,1}(1,3); %ZKolone ergänzen
+                                XLines{XLineIndex,1}=LinePts;
                             end
-                            LinePts(Stop+2:end,:)=[]; %Restliche Einträge entfernen
-                            LinePts(:,1)=XLines{XLineIndex,1}(1,1); %XKolone ergänzen
-                            LinePts(:,3)=XLines{XLineIndex,1}(1,3); %ZKolone ergänzen
-                            XLines{XLineIndex,1}=LinePts;
                         end
                     end
                 end
@@ -331,21 +335,23 @@ function [ Schraffuren,Bearbeitungszeit ] = F40_Schraffuren(...
                 
             %Bearbeitungszeit abschätzen
             if Scangeschw~=0
-                for XLineIndex=1:size(XLines,1)
-                    if ~isempty(XLines{XLineIndex,1})
-                        %Bearbeitungszeit Eilganglinie zwischen Linie berechnen
-                        DeltaX=VorangehenderEndPunkt(1)-XLines{XLineIndex,1}(1,1);
-                        DeltaY=VorangehenderEndPunkt(2)-XLines{XLineIndex,1}(1,2);
-                        Bearbeitungszeit=Bearbeitungszeit+(DeltaX^2+DeltaY^2)^0.5/Jumpgeschw;
-                        %Bearbeitungszeit auf der XLinie berechnen
-                        LengthTypTime=zeros(size(XLines{XLineIndex,1},1)-1,4);
-                        LengthTypTime(:,1)=abs(XLines{XLineIndex,1}(2:end,2)-XLines{XLineIndex,1}(1:end-1,2));
-                        LengthTypTime(:,2)=XLines{XLineIndex,1}(1:end-1,4);
-                        LengthTypTime(LengthTypTime(:,2)==0,3)=Jumpgeschw;
-                        LengthTypTime(LengthTypTime(:,2)~=0,3)=Scangeschw;
-                        LengthTypTime(:,4)=LengthTypTime(:,1)./LengthTypTime(:,3);
-                        Bearbeitungszeit=Bearbeitungszeit+sum(LengthTypTime(:,4));
-                        VorangehenderEndPunkt=XLines{XLineIndex,1}(end,1:2);
+                if ~isempty(XLines)
+                    for XLineIndex=1:size(XLines,1)
+                        if ~isempty(XLines{XLineIndex,1})
+                            %Bearbeitungszeit Eilganglinie zwischen Linie berechnen
+                            DeltaX=VorangehenderEndPunkt(1)-XLines{XLineIndex,1}(1,1);
+                            DeltaY=VorangehenderEndPunkt(2)-XLines{XLineIndex,1}(1,2);
+                            Bearbeitungszeit=Bearbeitungszeit+(DeltaX^2+DeltaY^2)^0.5/Jumpgeschw;
+                            %Bearbeitungszeit auf der XLinie berechnen
+                            LengthTypTime=zeros(size(XLines{XLineIndex,1},1)-1,4);
+                            LengthTypTime(:,1)=abs(XLines{XLineIndex,1}(2:end,2)-XLines{XLineIndex,1}(1:end-1,2));
+                            LengthTypTime(:,2)=XLines{XLineIndex,1}(1:end-1,4);
+                            LengthTypTime(LengthTypTime(:,2)==0,3)=Jumpgeschw;
+                            LengthTypTime(LengthTypTime(:,2)~=0,3)=Scangeschw;
+                            LengthTypTime(:,4)=LengthTypTime(:,1)./LengthTypTime(:,3);
+                            Bearbeitungszeit=Bearbeitungszeit+sum(LengthTypTime(:,4));
+                            VorangehenderEndPunkt=XLines{XLineIndex,1}(end,1:2);
+                        end
                     end
                 end
             end
