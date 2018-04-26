@@ -5,43 +5,43 @@ function [Schraffuren,VorschubDominant,Winkel]=F41_Schraffuren(...
     MinimalLaenge,OnDelayLength,OffDelayLength,AxialRichtung)
 %F41_Schraffuren berechnet aus geschlossenen Konturen die Schraffuren. 
 %Als Imput bekommt diese Funktion das CellArray Konturen. In diesem Cell
-%Array enthält jede Zeile die geschlossenen Konturen einer Schnittebene.
+%Array enthÃ¤lt jede Zeile die geschlossenen Konturen einer Schnittebene.
 %Jedes einzelnes Array vom Cell Array Konturen hat vier Spalten.
 %In den ersten drei Spalten sind die x-, y- und z-Koordinaten der einzelnen
-%Eckpunkte der geschlossenen Kontur. Werden diese Zeile für Zeile
+%Eckpunkte der geschlossenen Kontur. Werden diese Zeile fÃ¼r Zeile
 %miteinander verbunden, entsteht eine geschlossene Kontur. 
 %In der vierten Spalte jedes Arrays, ist die Dreiecksnummer der
 %Stl-Datei gespeichert aus dem der Eckpunkt auf dieser Zeile entstanden
 %ist.
 %Ein weiterer Imput ist der Linienabstand. Dieser gibt an welchen Abstand
-%die einzelnen Schraffurlinen später haben sollen. 
+%die einzelnen Schraffurlinen spÃ¤ter haben sollen. 
 %Der Imput Skywrite gibt an ob Skywrite berechnet werden soll (1=ja, 0=nein)
-%Skywritestart ist die Länge [mm], die die Skywritestarlinien haben sollen.
-%Skywriteend ist die Länge [mm], die die Skywriteendlinien haben sollen.
+%Skywritestart ist die LÃ¤nge [mm], die die Skywritestarlinien haben sollen.
+%Skywriteend ist die LÃ¤nge [mm], die die Skywriteendlinien haben sollen.
 %Schraffurwinkelstart ist der erste SchraffurWinkel in Grad. Dieser wird
-%nur benötigt falls Modus=2, bei einem freiwählbaren Winkel
+%nur benÃ¶tigt falls Modus=2, bei einem freiwÃ¤hlbaren Winkel
 %Schraffurwinkelinkrem ist der variable Winkel in Grad der von Schraffur zu
-%Schraffur ändert. 
-%Der Imput Verhältnis wird für die Berechnung des kleinstmöglichen Winkels
-%benötigt. Dieser wird benötigt falls Modus=1.
-%Der Imput Scangeschwindigkeit wird benötigt um die Drehgeschwindigkeit der
+%Schraffur Ã¤ndert. 
+%Der Imput VerhÃ¤ltnis wird fÃ¼r die Berechnung des kleinstmÃ¶glichen Winkels
+%benÃ¶tigt. Dieser wird benÃ¶tigt falls Modus=1.
+%Der Imput Scangeschwindigkeit wird benÃ¶tigt um die Drehgeschwindigkeit der
 %Drehachse zu berechnen.
-%Liegt die berechnete Drehgeschwindigkeit über der maximalen
+%Liegt die berechnete Drehgeschwindigkeit Ã¼ber der maximalen
 %Drehgeschwindigkeit des Imputs VorschubAmax, wird eine Warnmeldung
 %generiert.
-%Der Imput Drehoffset gibt die minimale Länge zwischen den
+%Der Imput Drehoffset gibt die minimale LÃ¤nge zwischen den
 %Schraffuren in Drehrichtung an [mm]
-%Der Imput MinJumplengthY [mm] gibt die minimale Länge der Jumplinie in
+%Der Imput MinJumplengthY [mm] gibt die minimale LÃ¤nge der Jumplinie in
 %Y-Richtung an.
 %Der Imput WinkelAnpassen (1=ja) (0=nein) gibt an ob der Winkel angepasst 
 %werden soll damit die maximale Drehzahl und Scangeschwindigkeit nicht 
-%überschritten und der kleinstmöchlie Winkel nicht unterschritten wird.
+%Ã¼berschritten und der kleinstmÃ¶chlie Winkel nicht unterschritten wird.
 %Output dieser Funktion ist das Cell Array Schraffuren. Jede Zeile in
-%diesem Cell Array enthält die berechneten Schraffuren einer Schnittebene.
+%diesem Cell Array enthÃ¤lt die berechneten Schraffuren einer Schnittebene.
 %In den ersten drei Spalten sind die x-, y- und z-Koordinaten der einzelnen
-%Schraffurpunkte enthalten. In der vierten Spalte ist definiert um was für
+%Schraffurpunkte enthalten. In der vierten Spalte ist definiert um was fÃ¼r
 %einen Linietyp es sich handelt. 
-%0=Eilganglinie, die mit ausgeschaltetem Laser so schnell wie möglich 
+%0=Eilganglinie, die mit ausgeschaltetem Laser so schnell wie mÃ¶glich 
 %abgefahren werden kann (G00)
 %1=Linie, die mit eingeschaltetem Laser mit Scangeschwindigkeit abgefahren
 %werden kann  (G01)
@@ -52,9 +52,9 @@ function [Schraffuren,VorschubDominant,Winkel]=F41_Schraffuren(...
 %5=Linie, die mit ausgeschaltetem Laser abgefahren wird (Zwischenlinie)
 %7=Linie, die mit ausgeschaltetem Laser abgefahren wird (Jumplinie)
 %Der Output VorschubDominant ist ein Array in dem die berechnete 
-%Drehgeschwindigkeit für jede Ebene gespeichert ist [°/s].
-%Der Output Umdrehungen enthält die zusätzlichen vollen Umdrehungen in [°]
-%die nötig sind um einen kontinuierliche steigenden Winkel im NC-Code für
+%Drehgeschwindigkeit fÃ¼r jede Ebene gespeichert ist [Â°/s].
+%Der Output Umdrehungen enthÃ¤lt die zusÃ¤tzlichen vollen Umdrehungen in [Â°]
+%die nÃ¶tig sind um einen kontinuierliche steigenden Winkel im NC-Code fÃ¼r
 %die Drehachse zu berechnen.
 
 [m,n]=size(Konturen); 
@@ -69,18 +69,18 @@ for k=1:size(Konturen,1) %Index, der durch die Ebenen von Konturen geht
     end
 end
 
-%Berechnung wichtiger Grundparameter für Schraffurerstellung
+%Berechnung wichtiger Grundparameter fÃ¼r Schraffurerstellung
 BreiteX=zeros(1,size(Konturen,1)); %Array zur Speicherung der maximalen Breite in X-Richtung jeder Schraffur
 Winkel=zeros(1,size(Konturen,1)); %Array zur Speicherung des berechneten Schraffurwinkels jeder Ebene
 WinkelN=zeros(1,size(Konturen,1)); %Array zur Speicherung des negativen Schraffurwinkels jeder Ebene
 Anzahllinien=zeros(1,size(Konturen,1)); %Anzahl Linien die in einen Umfang passen bei gegebenem Winkel
-Linienabstande=zeros(1,size(Konturen,1)); %Array zur Speicherung angepasster Linienabstände
-LinienabstandeN=zeros(1,size(Konturen,1)); %Array zur Speicherung angepasster Linienabstände für die Verzerrung
-SkywritestartN=zeros(1,size(Konturen,1)); %Array zur Speicherung der berechneten SkywriteStartlänge für die Verzerrung
-SkywriteendN=zeros(1,size(Konturen,1)); %Array zur Speicherung der berechneten SkywriteEndlänge für die Verzerrung
-MinimalLaengeN=zeros(1,size(Konturen,1)); %Array zur Speicherung der berechneten Minimallängen für die Verzerrung
-OnDelayLengthN=zeros(1,size(Konturen,1)); %Array zur Speicherung der berechneten OnDelaylänge für die Verzerrung
-OffDelayLengthN=zeros(1,size(Konturen,1)); %Array zur Speicherung der berechneten OffDelaylänge für die Verzerrung
+Linienabstande=zeros(1,size(Konturen,1)); %Array zur Speicherung angepasster LinienabstÃ¤nde
+LinienabstandeN=zeros(1,size(Konturen,1)); %Array zur Speicherung angepasster LinienabstÃ¤nde fÃ¼r die Verzerrung
+SkywritestartN=zeros(1,size(Konturen,1)); %Array zur Speicherung der berechneten SkywriteStartlÃ¤nge fÃ¼r die Verzerrung
+SkywriteendN=zeros(1,size(Konturen,1)); %Array zur Speicherung der berechneten SkywriteEndlÃ¤nge fÃ¼r die Verzerrung
+MinimalLaengeN=zeros(1,size(Konturen,1)); %Array zur Speicherung der berechneten MinimallÃ¤ngen fÃ¼r die Verzerrung
+OnDelayLengthN=zeros(1,size(Konturen,1)); %Array zur Speicherung der berechneten OnDelaylÃ¤nge fÃ¼r die Verzerrung
+OffDelayLengthN=zeros(1,size(Konturen,1)); %Array zur Speicherung der berechneten OffDelaylÃ¤nge fÃ¼r die Verzerrung
 VorschubDominant=zeros(1,size(Konturen,1)); %Array zur Speicherung des berechneten Vorschubs der Dominanten Drehachse
 Umfang=zeros(1,size(Konturen,1)); %Array zur Speicherung des berechneten Umfangs jeder Ebene
 WarnungGezeigt=0; %Vermerkt ob der Warnhinweis zur Drehzahl bereits gezeigt wurde
@@ -104,11 +104,11 @@ for k=1:size(Konturen,1) %Index, der durch die Ebenen von Konturen geht
         SchnittHoehe=Konturen{k,1}(1,3);
         Umfang(k)=(2*pi*SchnittHoehe);
         
-        WinkelKlein=atand((Verhaeltnis*Linienabstand)/(BreiteX(k)+Skywritestart+Skywriteend)); %kleinstmöglicher Winkel
-        WinkelMax=asind((VorschubAmax*Umfang(k))/(360*Scangeschw)); %Maximalmöglicher Winkel ohne überschreitung der maximalen Drehzahl und Scangeschwindigkeit
-        WinkelGross=atand(Umfang(k)/Linienabstand); %grössmöglicher Winkel 
+        WinkelKlein=atand((Verhaeltnis*Linienabstand)/(BreiteX(k)+Skywritestart+Skywriteend)); %kleinstmÃ¶glicher Winkel
+        WinkelMax=asind((VorschubAmax*Umfang(k))/(360*Scangeschw)); %MaximalmÃ¶glicher Winkel ohne Ã¼berschreitung der maximalen Drehzahl und Scangeschwindigkeit
+        WinkelGross=atand(Umfang(k)/Linienabstand); %grÃ¶ssmÃ¶glicher Winkel 
         if Schraffurwinkelinkrem==0 || k==1 %Winkelinkrement wird nicht verwendet
-            if Modus==1 %kleinstmöglicher Winkel
+            if Modus==1 %kleinstmÃ¶glicher Winkel
                 MinJumplengthY=0;
                 if WinkelAnpassung==0 %Winkelanpassung wird nicht verwendet
                     Winkel(k)=WinkelKlein;
@@ -119,7 +119,7 @@ for k=1:size(Konturen,1) %Index, der durch die Ebenen von Konturen geht
                         Winkel(k)=WinkelKlein;
                     end
                 end
-            elseif Modus==2 %freigewählter Winkel
+            elseif Modus==2 %freigewÃ¤hlter Winkel
                 if WinkelAnpassung==0 %Winkelanpassung wird nicht verwendet
                     Winkel(k)=Schraffurwinkelstart;
                 else %WinkelAnpassung==1 %Winkelanpassung wird verwendet
@@ -133,7 +133,7 @@ for k=1:size(Konturen,1) %Index, der durch die Ebenen von Konturen geht
                         Winkel(k)=-WinkelKlein;
                     end
                 end
-            elseif Modus==3 %grösstmöglicher Winkel
+            elseif Modus==3 %grÃ¶sstmÃ¶glicher Winkel
                 if WinkelAnpassung==0 %Winkelanpassung wird nicht verwendet
                     Winkel(k)=WinkelGross;
                 else %WinkelAnpassung==1 %Winkelanpassung wird verwendet
@@ -155,7 +155,7 @@ for k=1:size(Konturen,1) %Index, der durch die Ebenen von Konturen geht
                     Winkel(k)=Winkel(k)-(2*WinkelGross);
                 end
             else %WinkelAnpassung==1 %Winkelanpassung wird verwendet
-                if WinkelMax>WinkelKlein %Damit er in der Whileschlaufe nicht hängen bleibt
+                if WinkelMax>WinkelKlein %Damit er in der Whileschlaufe nicht hÃ¤ngen bleibt
                     while (Winkel(k)>WinkelMax) || (Winkel(k)>-WinkelKlein && Winkel(k)<WinkelKlein)
                         if Winkel(k)>WinkelMax
                             Winkel(k)=Winkel(k)-(2*WinkelMax);
@@ -186,16 +186,16 @@ for k=1:size(Konturen,1) %Index, der durch die Ebenen von Konturen geht
             Anzahllinien(k-1)=Anzahllinien(k);
         end
         Linienabstande(k)=(Umfang(k)*cosd(WinkelN(k)))/round(Anzahllinien(k)); %Angepasster Linienabstand damit die obere Schraffurkante indentisch mit der Unteren ist
-        LinienabstandeN(k)=Linienabstande(k)/cosd(WinkelN(k)); %Linienabstand für Berechnungen inerhalb der Verzerrung
-        SkywritestartN(k)=Skywritestart*cosd(WinkelN(k)); %SkywriteStartLänge für Berechnungen inerhalb der Verzerrung
-        SkywriteendN(k)=Skywriteend*cosd(WinkelN(k)); %SkywriteEndLänge für Berechnungen inerhalb der Verzerrung
-        MinimalLaengeN(k)=MinimalLaenge*cosd(WinkelN(k)); %MinimalLaenge für Berechnungen inerhalb der Verzerrung
-        OnDelayLengthN(k)=OnDelayLength*cosd(WinkelN(k)); %OnDelayLänge für Berechnungen inerhalb der Verzerrung
-        OffDelayLengthN(k)=OffDelayLength*cosd(WinkelN(k)); %OffDelayLänge für Berechnungen inerhalb der Verzerrung
+        LinienabstandeN(k)=Linienabstande(k)/cosd(WinkelN(k)); %Linienabstand fÃ¼r Berechnungen inerhalb der Verzerrung
+        SkywritestartN(k)=Skywritestart*cosd(WinkelN(k)); %SkywriteStartLÃ¤nge fÃ¼r Berechnungen inerhalb der Verzerrung
+        SkywriteendN(k)=Skywriteend*cosd(WinkelN(k)); %SkywriteEndLÃ¤nge fÃ¼r Berechnungen inerhalb der Verzerrung
+        MinimalLaengeN(k)=MinimalLaenge*cosd(WinkelN(k)); %MinimalLaenge fÃ¼r Berechnungen inerhalb der Verzerrung
+        OnDelayLengthN(k)=OnDelayLength*cosd(WinkelN(k)); %OnDelayLÃ¤nge fÃ¼r Berechnungen inerhalb der Verzerrung
+        OffDelayLengthN(k)=OffDelayLength*cosd(WinkelN(k)); %OffDelayLÃ¤nge fÃ¼r Berechnungen inerhalb der Verzerrung
         VorschubDominant(k)=abs((360*Scangeschw*sind(WinkelN(k)))/Umfang(k)); %Vorschub der Dominanten Drehachse wird berechnen
-        if VorschubDominant(k)>=VorschubAmax %Maximal mögliche Drehzahl wird überschritten
+        if VorschubDominant(k)>=VorschubAmax %Maximal mÃ¶gliche Drehzahl wird Ã¼berschritten
             if WarnungGezeigt==0 %Warnung wurde noch nie angezeigt
-                warning('Hinweis: Die maximale Drehzahl wird überschritten');
+                warning('Hinweis: Die maximale Drehzahl wird Ã¼berschritten');
                 WarnungGezeigt=1;
             end
         end
@@ -212,16 +212,16 @@ for k=1:size(Konturen,1) %Index, der durch die Ebenen von Konturen geht
 end
 
 Schraffuren=cell(m,1); %CellArray zur Speicherung der Schraffuren jeder Ebene
-WinkelUbergabe=DrehoffsetStart; %Winkel der zwischen den Schraffurberechnungen übergeben wird
+WinkelUbergabe=DrehoffsetStart; %Winkel der zwischen den Schraffurberechnungen Ã¼bergeben wird
 bar = waitbar(0,'Schraffuren werden berechnet...'); %Ladebalken erstellen
 for k=1:m %Index, der durch die Ebenen itteriert
-counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüllen
+counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufÃ¼llen
     if isempty(Konturen{k,1}) %In dieser Ebene gibt es keine geschlossenen Konturen
         SectPts=[];
         YLines=[];
     else %In dieser Ebene gibt es geschlossenen Konturen
 
-    %Schritt 0: Arraygrösse abschätzen
+    %Schritt 0: ArraygrÃ¶sse abschÃ¤tzen
         %tic
         %disp('Schritt 0');
         miny=Inf; %Mininalwert der Schraffur in Y-Richtung
@@ -249,7 +249,7 @@ counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüll
         SectPts=zeros(AnzahlSectPts,4); %Array zur Speicherung der Schnittpunkte
         
         %%% Ohne Linienoffsets
-        %if Modus==1 %kleinstmöglicher Winkel
+        %if Modus==1 %kleinstmÃ¶glicher Winkel
         %    if Skywritestart==0||Skywriteend==0 %if Skywrite==0
         %        hy=[miny+Linienabstand*Verhaeltnis+0.001:LinienabstandeN(k):maxy]'; %Hatchvektor
         %    else
@@ -259,7 +259,7 @@ counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüll
         %            hy=[miny+Linienabstand*Verhaeltnis+0.001+SkywritestartN(k)*sind(-WinkelN(k)):LinienabstandeN(k):maxy]'; %Hatchvektor
         %        end
         %    end
-        %else %Modus==2 %freiwählbarer Winkel oder Modus==3 %grösstmöglicher Winkel
+        %else %Modus==2 %freiwÃ¤hlbarer Winkel oder Modus==3 %grÃ¶sstmÃ¶glicher Winkel
         %    if Skywritestart==0||Skywriteend==0 %if Skywrite==0
         %        hy=[miny+0.001:LinienabstandeN(k):maxy]'; %Hatchvektor
         %    else
@@ -298,7 +298,7 @@ counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüll
                                 else %Noch nicht am Ende der Kontur angelangt
                                     E2Y=Konturen{k,i}(p+2,2); %folgender Eckpunkt 2 wird zwischengespeichert
                                 end
-                                if E2Y<E1(2) %"Berührung" Spezialfall B
+                                if E2Y<E1(2) %"BerÃ¼hrung" Spezialfall B
                                     hy_cut(end)=[]; %E1 wieder entfernen
                                 elseif E2Y==E1(2) %"Ein Nachbar auf gleicher Linie" Spezialfall C
                                     %nichts machen, E1 ist schon richtig gespeichert
@@ -323,9 +323,9 @@ counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüll
                                 else %Noch nicht am Ende der Kontur angelangt
                                     E2Y=Konturen{k,i}(p+2,2); %folgender Eckpunkt 2 wird zwischengespeichert
                                 end
-                                if E2Y>E1(2) %"Berührung" Spezialfall B  
-                                    hy_cut(1:end-1,:)=hy_cut(2:end,:); %Restvektor über E1 aufrücken
-                                    hy_cut(end)=[]; %letzter Eintrag löschen
+                                if E2Y>E1(2) %"BerÃ¼hrung" Spezialfall B  
+                                    hy_cut(1:end-1,:)=hy_cut(2:end,:); %Restvektor Ã¼ber E1 aufrÃ¼cken
+                                    hy_cut(end)=[]; %letzter Eintrag lÃ¶schen
                                 elseif E2Y==E1(2) %"Ein Nachbar auf gleicher Linie" Spezialfall C
                                     %nichts machen, E1 ist schon richtig gespeichert
                                 else  %E2Y<E1(1) "Schnitt" Spezialfall A
@@ -360,13 +360,13 @@ counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüll
                         warning('Array SectPts ist zu klein');
                         SectPts=[SectPts;zeros(counter+nmb_cuts-1-size(SectPts,1),4)]; %SectPts wird erweitert
                     end
-                    SectPts(counter:counter+nmb_cuts-1,1:3)=[x_interpol,hy_cut,ones(nmb_cuts,1)*E0(3)]; %SectPts werden in SectPts angehängt
-                    counter=counter+nmb_cuts; %der Index Counter wird ensprechend erhöht
+                    SectPts(counter:counter+nmb_cuts-1,1:3)=[x_interpol,hy_cut,ones(nmb_cuts,1)*E0(3)]; %SectPts werden in SectPts angehÃ¤ngt
+                    counter=counter+nmb_cuts; %der Index Counter wird ensprechend erhÃ¶ht
                 end
             end
         end
-        SectPts(counter+1:end,:)=[]; %Leere Einträge entfernen
-        SectPts(counter,1:3)=[inf,inf,inf]; %Anfügen eines Schlusspunkts (Trick für Folgeschlaufe)
+        SectPts(counter+1:end,:)=[]; %Leere EintrÃ¤ge entfernen
+        SectPts(counter,1:3)=[inf,inf,inf]; %AnfÃ¼gen eines Schlusspunkts (Trick fÃ¼r Folgeschlaufe)
         %toc
         %Schritt1=SectPts;
 
@@ -383,7 +383,7 @@ counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüll
         %disp('Schritt 3');
         %tic
         YLines=cell(length(hy),1); %CellArray zur Speicherung der Punkte jeder Y-Linie
-        YLineIndex=1; %Index zum einfüllen der Linienpunkte in YLines
+        YLineIndex=1; %Index zum einfÃ¼llen der Linienpunkte in YLines
         staIndex=1; %Index zur Kennzeichnung einer neuen Y-Linie in SectPts
         staWert=SectPts(staIndex,2);
         for endIndex=1:size(SectPts,1)%Endindex itteriert durch alle SectPts
@@ -394,30 +394,30 @@ counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüll
                 staWert=SectPts(staIndex,2);
             end
         end
-        YLines(YLineIndex:end)=[]; %Leere CellArrayeinträge entfernen
+        YLines(YLineIndex:end)=[]; %Leere CellArrayeintrÃ¤ge entfernen
         %Schritt3=YLines;
         %toc
 
-    % Schritt 4: gleiche Y-Lines zusammenfügen
+    % Schritt 4: gleiche Y-Lines zusammenfÃ¼gen
         %disp('Schritt 4');
         %tic
         YRowSize=round(Umfang(k)/LinienabstandeN(k));
         YRow=cell(YRowSize,1); %CellArray zur Speicherung der Punkte jeder Y-Linie
-        YRowIndex=1; %Index zum Einfüllen der Linienpunkte in YRow
-        hyIndex=1; %Index für den Hatchvektor hy 
+        YRowIndex=1; %Index zum EinfÃ¼llen der Linienpunkte in YRow
+        hyIndex=1; %Index fÃ¼r den Hatchvektor hy 
         for YLineIndex=1:size(YLines,1) %YLineIndex itteriert durch alle YLinien 
-            while YLines{YLineIndex,1}(1,2)~=hy(hyIndex) %Bei leerer Punktelinie hyIndex und YRowIndex nachführen
+            while YLines{YLineIndex,1}(1,2)~=hy(hyIndex) %Bei leerer Punktelinie hyIndex und YRowIndex nachfÃ¼hren
                 hyIndex=hyIndex+1;
                 YRowIndex=YRowIndex+1;
             end    
-            YRowIndex=mod(hyIndex,YRowSize); %YRowIndex berechnen um aktuelle YLine Punkte korrekt in YRow einzufügen
+            YRowIndex=mod(hyIndex,YRowSize); %YRowIndex berechnen um aktuelle YLine Punkte korrekt in YRow einzufÃ¼gen
             if YRowIndex==0
                 YRowIndex=YRowSize;
             end
             if isempty(YRow{YRowIndex,1}) %Keine LinienPunkte vorhanden
                 YRow{YRowIndex,1}=YLines{YLineIndex,1};
             else %LinienPunkte vorhanden
-                YRow{YRowIndex,1}=[YRow{YRowIndex,1};YLines{YLineIndex,1}]; %YLiniensegmente zusammenfügen in YRow
+                YRow{YRowIndex,1}=[YRow{YRowIndex,1};YLines{YLineIndex,1}]; %YLiniensegmente zusammenfÃ¼gen in YRow
             end
             hyIndex=hyIndex+1;
             YRowIndex=YRowIndex+1;
@@ -438,7 +438,7 @@ counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüll
     % Schritt 6: Kurze Liniensegmente entfernen
         if MinimalLaenge~=0
             for YLineIndex=1:size(YLines,1) %YLineIndex itteriert durch alle YLinien 
-                %Laserlinien die kürzer als MinimalLaengeN entfernen
+                %Laserlinien die kÃ¼rzer als MinimalLaengeN entfernen
                 if ~isempty(YLines{YLineIndex,1})
                     LaserDistancesX=YLines{YLineIndex,1}(2:2:end,1)-YLines{YLineIndex,1}(1:2:end-1,1);
                     Delete1=abs(LaserDistancesX)<MinimalLaengeN(k);
@@ -447,7 +447,7 @@ counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüll
                     Delete2(2:2:end,1)=Delete1;
                     YLines{YLineIndex,1}=YLines{YLineIndex,1}(~Delete2,:);
                 end
-                %Zwischenlinien die kürzer als MinimalLaengeN entfernen
+                %Zwischenlinien die kÃ¼rzer als MinimalLaengeN entfernen
                 if ~isempty(YLines{YLineIndex,1})
                     ZwischenDistancesX=YLines{YLineIndex,1}(3:2:end-1,1)-YLines{YLineIndex,1}(2:2:end-2,1);
                     Delete3=abs(ZwischenDistancesX)<MinimalLaengeN(k);
@@ -506,14 +506,14 @@ counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüll
                         LinePts(1,1)=LinePts(2,1)-SkywritestartN(k); %SkywriteStartlinie
                         LinePts(end,1)=LinePts(AnzahlXPts+1,1)+SkywriteendN(k); %SkywriteEndlinie
                     end
-                    YLines{YLineIndex,1}=LinePts; %LinePts ins Cellarray YLines einfüllen
+                    YLines{YLineIndex,1}=LinePts; %LinePts ins Cellarray YLines einfÃ¼llen
                 end
             end
         end
         %Schritt7=YLines; 
         %toc
 
-        %Schritt 8: Rückversetzen der Y-Koordinaten jedes Punktes (RückVerzerrung)
+        %Schritt 8: RÃ¼ckversetzen der Y-Koordinaten jedes Punktes (RÃ¼ckVerzerrung)
         for YLineIndex=1:size(YLines,1) %Itteriert durch alle YLines
              if ~isempty(YLines{YLineIndex,1})
                   YLines{YLineIndex,1}(:,2)=YLines{YLineIndex,1}(:,2)-YLines{YLineIndex,1}(:,1)*tand(WinkelN(k));
@@ -533,7 +533,7 @@ counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüll
         %Schritt 10: Drehoffset und Jumplinien durch umordnen der YLinien und Addition voller Umdrehungswinkel berechnen
         %disp('Schritt 10');
         WinkelOffset=mod(WinkelUbergabe,360); %Neuer Drehoffsetwinkel berechnen
-        %Finden der optimalen nächstgelegenen Y-Koordinate in YLines zu WinkelUbergabe 
+        %Finden der optimalen nÃ¤chstgelegenen Y-Koordinate in YLines zu WinkelUbergabe 
         YDistanceAlt=Inf;
         for YLineIndex=1:size(YLines,1) %YLineIndex iteriert durch alle YLines
             if ~isempty(YLines{YLineIndex}) %aktuelle YLinie ist nicht leer
@@ -541,24 +541,24 @@ counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüll
                 if YWinkel<WinkelOffset
                     YWinkel=YWinkel+360;
                 end    
-                YDistanceNeu=YWinkel-WinkelOffset; %Kürzeste Distanz zur nächsten YLinie berechnen
+                YDistanceNeu=YWinkel-WinkelOffset; %KÃ¼rzeste Distanz zur nÃ¤chsten YLinie berechnen
                 if YDistanceNeu<YDistanceAlt %Neue Distance kleiner als alte Distance
-                    YDistanceAlt=YDistanceNeu; %Neue kürzeste Distance zwischenspeichern
+                    YDistanceAlt=YDistanceNeu; %Neue kÃ¼rzeste Distance zwischenspeichern
                     YLineIndexOK=YLineIndex; %Neuer optimaler Index merken
                 end
             end
         end
-        %Index für YLinien bestimmen um danach umzuordnen (Liste generieren)
-        jumps=ceil(abs(((BreiteX(k)+SkywritestartN(k)+SkywriteendN(k))*tand(WinkelN(k))+MinJumplengthY)/Linienabstande(k))); %Anzahl Linien die überspringt werden müssen
+        %Index fÃ¼r YLinien bestimmen um danach umzuordnen (Liste generieren)
+        jumps=ceil(abs(((BreiteX(k)+SkywritestartN(k)+SkywriteendN(k))*tand(WinkelN(k))+MinJumplengthY)/Linienabstande(k))); %Anzahl Linien die Ã¼berspringt werden mÃ¼ssen
         Vorhanden=~cellfun(@isempty,YLines); %Gibt an ob im Cellarray YLines die entsprechende YLinie vorhanden ist 
-        LengthVorhanden=length(Vorhanden); %Länge vom Vektor Vorhanden
-        Ende=length(find(Vorhanden)); %Anzahl nicht leerer Einträge von Vorhanden
-        Liste=zeros(Ende,1); %Liste enthält die Indexe zur Neuanordnung von YLines
+        LengthVorhanden=length(Vorhanden); %LÃ¤nge vom Vektor Vorhanden
+        Ende=length(find(Vorhanden)); %Anzahl nicht leerer EintrÃ¤ge von Vorhanden
+        Liste=zeros(Ende,1); %Liste enthÃ¤lt die Indexe zur Neuanordnung von YLines
         ListenIndex=1; %Index zur Einordnung gefundener Werte in Liste
         q=YLineIndexOK; %Index der durch Vorhanden itteriert
         while ListenIndex<=Ende
             if Vorhanden(q)==1 %Eintrag noch vorhanden
-                Liste(ListenIndex)=q; %Liste ergänzen
+                Liste(ListenIndex)=q; %Liste ergÃ¤nzen
                 ListenIndex=ListenIndex+1;
                 Vorhanden(q)=0; %Dieser q Eintrag ist nun nicht mehr vorhanden
                 q=q+jumps;
@@ -590,9 +590,9 @@ counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüll
             end
         end
         Schraffuren{k,1}=cell2mat(YLines(Liste)); %Neuanordnung der YLinien und Speicherung in Schraffuren
-        %WinkelUbergabe=Schraffuren{k,1}(end,2)+Drehoffset*360/Umfang(k); %Winkel für nächste Schraffurebenen berechnung speichern
+        %WinkelUbergabe=Schraffuren{k,1}(end,2)+Drehoffset*360/Umfang(k); %Winkel fÃ¼r nÃ¤chste Schraffurebenen berechnung speichern
         if ~isempty(Schraffuren{k,1})
-            WinkelUbergabe=Schraffuren{k,1}(end,2)+Drehoffset; %Winkel für nächste Schraffurebenen berechnung speichern
+            WinkelUbergabe=Schraffuren{k,1}(end,2)+Drehoffset; %Winkel fÃ¼r nÃ¤chste Schraffurebenen berechnung speichern
         end
         %Schritt10=Schraffuren{k};
 
@@ -603,7 +603,7 @@ end
 delete(bar);
 
 %Letzter Punkt kopieren und Entschleunigungswinkel dazuaddieren
-kend=find(find(~cellfun(@isempty,Schraffuren))',1,'last');
+kend=find(~cellfun(@isempty,Schraffuren),1,'last');
 if ~isempty(kend)
     Schraffuren{kend,1}(end+1,1:4)=[Schraffuren{kend,1}(end,1),Schraffuren{kend,1}(end,2)+DrehoffsetStart,Schraffuren{kend,1}(end,3),7];
 end
