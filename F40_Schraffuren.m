@@ -105,7 +105,8 @@ function [ Schraffuren,Bearbeitungszeit ] = F40_Schraffuren(...
                 elseif mod(k,8)==0
                     Offset=(15/16);
                 end
-                hx=[minx+Offset*Linienabstand:Linienabstand:maxx]';
+                hx=[fliplr([0-Linienabstand*(1-Offset):-Linienabstand:minx]),[0+Linienabstand*Offset:Linienabstand:maxx]]';
+                hx=hx(hx>minx & hx<maxx);
             end
             %toc   
 

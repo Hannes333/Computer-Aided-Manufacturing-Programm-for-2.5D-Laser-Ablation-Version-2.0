@@ -180,6 +180,12 @@ for k=1:size(Konturen,1) %Index, der durch die Ebenen von Konturen geht
         end
         WinkelN(k)=-Winkel(k); %Vorzeichenwechsel damit Darstellung intuitiver
         Anzahllinien(k)=(Umfang(k)*cosd(WinkelN(k)))/Linienabstand; %Anzahl Linien die in einen Umfang passen bei gegebenem Winkel
+        %%% Mit Linienoffsets
+        if mod(k,2)==1
+            Anzahllinien(k)=Anzahllinien(k);
+        else
+            Anzahllinien(k)=Anzahllinien(k-1);
+        end
         Linienabstande(k)=(Umfang(k)*cosd(WinkelN(k)))/round(Anzahllinien(k)); %Angepasster Linienabstand damit die obere Schraffurkante indentisch mit der Unteren ist
         LinienabstandeN(k)=Linienabstande(k)/cosd(WinkelN(k)); %Linienabstand für Berechnungen inerhalb der Verzerrung
         SkywritestartN(k)=Skywritestart*cosd(WinkelN(k)); %SkywriteStartLänge für Berechnungen inerhalb der Verzerrung
@@ -243,24 +249,32 @@ counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüll
         end
         SectPts=zeros(AnzahlSectPts,4); %Array zur Speicherung der Schnittpunkte
         
-        if Modus==1 %kleinstmöglicher Winkel
-            if Skywritestart==0||Skywriteend==0 %if Skywrite==0
-                hy=[miny+Linienabstand*Verhaeltnis+0.001:LinienabstandeN(k):maxy]'; %Hatchvektor
-            else
-                if WinkelN(k)>0
-                    hy=[miny+Linienabstand*Verhaeltnis+0.001+SkywritestartN(k)*sind(WinkelN(k)):LinienabstandeN(k):maxy]'; %Hatchvektor
-                else
-                    hy=[miny+Linienabstand*Verhaeltnis+0.001+SkywritestartN(k)*sind(-WinkelN(k)):LinienabstandeN(k):maxy]'; %Hatchvektor
-                end
-            end
-        else %Modus==2 %freiwählbarer Winkel oder Modus==3 %grösstmöglicher Winkel
-            if Skywritestart==0||Skywriteend==0 %if Skywrite==0
-                hy=[miny+0.001:LinienabstandeN(k):maxy]'; %Hatchvektor
-            else
-                hy=[miny+0.001:LinienabstandeN(k):maxy]'; %Hatchvektor
-            end
+        %%% Ohne Linienoffsets
+        %if Modus==1 %kleinstmöglicher Winkel
+        %    if Skywritestart==0||Skywriteend==0 %if Skywrite==0
+        %        hy=[miny+Linienabstand*Verhaeltnis+0.001:LinienabstandeN(k):maxy]'; %Hatchvektor
+        %    else
+        %        if WinkelN(k)>0
+        %            hy=[miny+Linienabstand*Verhaeltnis+0.001+SkywritestartN(k)*sind(WinkelN(k)):LinienabstandeN(k):maxy]'; %Hatchvektor
+        %        else
+        %            hy=[miny+Linienabstand*Verhaeltnis+0.001+SkywritestartN(k)*sind(-WinkelN(k)):LinienabstandeN(k):maxy]'; %Hatchvektor
+        %        end
+        %    end
+        %else %Modus==2 %freiwählbarer Winkel oder Modus==3 %grösstmöglicher Winkel
+        %    if Skywritestart==0||Skywriteend==0 %if Skywrite==0
+        %        hy=[miny+0.001:LinienabstandeN(k):maxy]'; %Hatchvektor
+        %    else
+        %        hy=[miny+0.001:LinienabstandeN(k):maxy]'; %Hatchvektor
+        %    end
+        %end
+        %%% Mit Linienoffsets
+        if mod(k,2)==1 %Ungerade Ebene
+            Offset=(mod(k,100)/100)*0.5;
+        else %Gerade Ebene
+            Offset=Offset+0.5;
         end
-        %toc
+        hy=[fliplr([0-LinienabstandeN(k)*(1-Offset):-LinienabstandeN(k):miny]),[0+LinienabstandeN(k)*Offset:LinienabstandeN(k):maxy]]';
+        hy=hy(hy>miny & hy<maxy);
 
     %Schritt 1: Berechne die Schnittpunkte zwischen den Y-linien (hy) und den Konturen
         %disp('Schritt 1');
@@ -578,7 +592,9 @@ counter=1; %Index, der hilft die berechneten SectPts ins Array SectPts einzufüll
         end
         Schraffuren{k,1}=cell2mat(YLines(Liste)); %Neuanordnung der YLinien und Speicherung in Schraffuren
         %WinkelUbergabe=Schraffuren{k,1}(end,2)+Drehoffset*360/Umfang(k); %Winkel für nächste Schraffurebenen berechnung speichern
-        WinkelUbergabe=Schraffuren{k,1}(end,2)+Drehoffset; %Winkel für nächste Schraffurebenen berechnung speichern
+        if ~isempty(Schraffuren{k,1})
+            WinkelUbergabe=Schraffuren{k,1}(end,2)+Drehoffset; %Winkel für nächste Schraffurebenen berechnung speichern
+        end
         %Schritt10=Schraffuren{k};
 
         waitbar(k/m); %Ladebalken aktualisieren
@@ -588,6 +604,9 @@ end
 delete(bar);
 
 %Letzter Punkt kopieren und Entschleunigungswinkel dazuaddieren
-Schraffuren{end,1}(end+1,1:4)=[Schraffuren{end,1}(end,1),Schraffuren{end,1}(end,2)+DrehoffsetStart,Schraffuren{end,1}(end,3),7];
+kend=find(find(~cellfun(@isempty,Schraffuren))',1,'last');
+if ~isempty(kend)
+    Schraffuren{kend,1}(end+1,1:4)=[Schraffuren{kend,1}(end,1),Schraffuren{kend,1}(end,2)+DrehoffsetStart,Schraffuren{kend,1}(end,3),7];
+end
 
 end
