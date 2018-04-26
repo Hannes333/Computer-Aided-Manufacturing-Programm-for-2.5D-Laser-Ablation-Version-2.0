@@ -44,7 +44,7 @@ end
 v2=zeros(AnzahlDreiecke*3,3);
 iv2=[1 2 3];
 for i=1:size(f,1) %Index, der durch die Dreiecke iteriert
-    Dr1=[v(f(i,1),:);v(f(i,2),:);v(f(i,3),:)]; %aktuelles Dreieck wir in Dr2 zwischengespeichert
+    Dr1=[v(f(i,1),:);v(f(i,2),:);v(f(i,3),:)]; %aktuelles Dreieck wir in Dr1 zwischengespeichert
     [~,ind]=sort(Dr1(:,2),'descend');
     Dr2=Dr1(ind,:); %die drei Eckpunktkoordinaten sind nun absteigend nach den Y-Koordinaten sortiert 
     if (Dr2(1,2)>=0)&&(Dr2(3,2)<=0) && max(Dr2(:,3))>0 %Dreieck wird von y=0 Ebene gespalten und hat ein Eckpunkt mit positiven Z-Koordinaten
@@ -116,6 +116,11 @@ for i=1:size(f,1) %Index, der durch die Dreiecke iteriert
                 Dr11=[Dr3(1,1),Dr3(1,2)+360,Dr3(1,3);Dr3(2,1),Dr3(2,2)+360,Dr3(2,3);Dr3(3,1),360,Dr3(3,3)];
                 %plot3([Dr11(1,1),Dr11(2,1),Dr11(3,1),Dr11(1,1)],[Dr11(1,2),Dr11(2,2),Dr11(3,2),Dr11(1,2)],[Dr11(1,3),Dr11(2,3),Dr11(3,3),Dr11(1,3)],'r');
                 v2(iv2,:)=Dr11; %erstes Dreieck speichern
+                iv2=iv2+3;
+            elseif Dr2(3,2)==0 && Dr2(2,2)==0 && Dr2(1,2)==0
+                %disp('Fall H')
+                %plot3([Dr1(1,1),Dr1(2,1),Dr1(3,1),Dr1(1,1)],[Dr1(1,2),Dr1(2,2),Dr1(3,2),Dr1(1,2)],[Dr1(1,3),Dr1(2,3),Dr1(3,3),Dr1(1,3)],'r');
+                v2(iv2,:)=Dr1;
                 iv2=iv2+3;
             else
                 disp('Fall X')
